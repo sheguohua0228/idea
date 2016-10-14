@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.AdminMapper">
+	
+	<resultMap id="adminResult" type="com.aplus.lk.clothes.entity.Admin">
+		
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date" />
+		<result property="username"  column="username" />
+		<result property="password"  column="password" />
+		<result property="email"  column="email" />
+		<result property="name"  column="name" />
+		<result property="departmentId"  column="department_id" />
+		<result property="isAccountEnabled"  column="is_account_enabled" />
+		<result property="isAccountLocked"  column="is_account_locked" />
+		<result property="isAccountExpired"  column="is_account_expired" />
+		<result property="isCredentialsExpired"  column="is_credentials_expired" />
+		<result property="loginFailureCount"  column="login_failure_count" />
+		<result property="lockedDate"  column="locked_date" />
+		<result property="loginDate"  column="login_date" />
+		<result property="loginIp"  column="login_ip" />
+		<result property="cno"  column="cno" />
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Admin">
+		insert into lk_clothes_admin(id,create_date,modify_date,username,password,email,name,department_id,is_account_enabled,is_account_locked,
+			is_account_expired,is_credentials_expired,login_failure_count)
+			values(#{id},#{createDate},#{modifyDate},#{username},#{password},#{email},#{name},#{departmentId},#{isAccountEnabled}
+				,#{isAccountLocked},#{isAccountExpired},#{isCredentialsExpired},0)
+	</insert>
+	
+	<insert id="saveAdminGroup" parameterType="map">
+		insert into lk_clothes_admin_group_manager(admin_set_id, group_set_id)
+			values(#{adminId},#{groupId})
+	</insert>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.Admin">
+		update lk_clothes_admin set modify_date = #{modifyDate},
+			<if test="password != null and password != ''">
+				password = #{password},
+			</if>
+			name = #{name},
+			email = #{email},
+			is_account_enabled = #{isAccountEnabled}
+			where id = #{id}
+	</update>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="adminResult">
+		select * from lk_clothes_admin where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="username != null and username != ''">
+			and username like CONCAT('%',#{username},'%')
+		</if>
+		limit #{firstResult}, #{maxResult}
+	</select>
+
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_clothes_admin where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="username != null and username != ''">
+			and username like CONCAT('%',#{username},'%')
+		</if>
+	</select>
+	
+	<select id="queryAdminById" parameterType="string" resultMap="adminResult">
+		select * from lk_clothes_admin where id = #{_parameter}
+	</select>
+	
+	<select id="queryAdminByUsername" parameterType="string" resultMap="adminResult">
+		select * from lk_clothes_admin where username = #{_parameter}
+	</select>
+	
+	<delete id="delete">
+		delete from lk_clothes_admin where id in 
+		<foreach item="id" collection="array" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="queryGroupIdListByAdminId" parameterType="string" resultType="string">
+		select group_set_id from lk_clothes_admin_group_manager where admin_set_id = #{_parameter}
+	</select>
+	
+	<select id="deleteAdminGroup" parameterType="map">
+		delete from lk_clothes_admin_group_manager where admin_set_id = #{adminId} and group_set_id = #{groupId}
+	</select>
+	
+	<select id="deleteAdminGroupByAdminIds" parameterType="string">
+		delete from lk_clothes_admin_group_manager where admin_set_id in
+		<foreach collection="array" open="(" close=")" separator="," item="adminId">
+			#{adminId}		
+		</foreach>
+	</select>
+	
+	<update id="updatePasswordAndEmail" parameterType="com.aplus.lk.clothes.entity.Admin">
+		update lk_clothes_admin set modify_date = now()
+			<if test="password != null and password != ''">
+				,password = #{password}
+			</if>
+			<if test="email != null and email != ''">
+				,email = #{email}
+			</if>
+			where id = #{id}
+	</update>
+	
+	<update id="updateLoginIpAndDate" parameterType="com.aplus.lk.clothes.entity.Admin">
+		update lk_clothes_admin set modify_date = now(), login_ip = #{loginIp},login_date = #{loginDate}
+			where id = #{id}
+	</update>
+	
+</mapper>

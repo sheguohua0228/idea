@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.DepartmentMapper">
+	
+	<resultMap id="departmentResult" type="com.aplus.lk.clothes.entity.Department">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_date" />
+		<result property="updateTime" column="modify_date"/>
+		<result property="name" column="name"/>
+		<result property="note" column="note" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="manager"  column="manager" />
+		<result property="tel" column="tel" />
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Department">
+		insert into lk_department(id,create_date,modify_date,name,note,is_enabled,manager,tel)
+			values(#{id},now(),now(),#{name},#{note},#{isEnabled},#{manager},#{tel})
+	</insert>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="departmentResult">
+		select * from lk_department where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="isEnabled != null">
+			and is_enabled = #{isEnabled}
+		</if>
+		<if test="manager != null and manager != ''">
+			and manager like CONCAT('%',#{manager},'%')
+		</if>
+		order by create_date desc
+		limit #{firstResult},#{maxResult}
+	</select>
+
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_department where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="isEnabled != null">
+			and is_enabled = #{isEnabled}
+		</if>
+		<if test="manager != null and manager != ''">
+			and manager like CONCAT('%',#{manager},'%')
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.Department">
+		update lk_department set modify_date = now() , note = #{note}
+			<if test="name != null and name != ''">
+				, name = #{name}
+			</if>
+			<if test="isEnabled != null">
+				, is_enabled = #{isEnabled}
+			</if>
+			<if test="manager != null and manager != ''">
+				,manager = #{manager}
+			</if>
+			<if test="tel != null and tel != ''">
+				,tel = #{tel}
+			</if>
+			where id = #{id}
+	</update>
+	
+	<delete id="delete" >
+		delete from lk_department where id in 
+		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+	
+	<select id="queryById" parameterType="string" resultMap="departmentResult">
+		select * from lk_department where id = #{_parameter}
+	</select>
+	
+	<select id="queryByName" parameterType="string" resultMap="departmentResult">
+		select * from lk_department where name = #{_parameter}
+	</select>
+	
+	<select id="queryAll" resultMap="departmentResult">
+		select * from lk_department
+	</select>
+	
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.ManagerOrderMapper">
+	
+	<resultMap id="managerOrderResult" type="com.aplus.lk.clothes.entity.ManagerOrder">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time"/>
+		<result property="orderStatus" column="order_status"/>
+		<result property="price" column="price" />
+		<result property="finalPrice" column="final_price"/>
+		<result property="userId" column="user_id" />
+		<result property="userName" column="username" />
+		<result property="orderNumber" column="bespeak_order_number"/>
+		<result property="content" column="content"/>
+		<result property="desc" column="description"/>
+		<result property="phoneNumber" column="phone_number"/>
+		<result property="addressId" column="address_id"/>
+		<result property="employeeId" column="employee_id"/>
+		<result property="progressId" column="progress_id"/>
+		<result property="prictureImageUrl" column="pricture_image_url"/>
+		<result property="appraiseId" column="appraise_id"/>
+		<result property="payStatus" column="pay_status"/>
+        <result property="time" column="time"/>
+        <result property="status" column="status"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="employeeMemo" column="employee_memo"/>
+        <result property="integralNum" column="integral_num"/>
+        <result property="payType" column="pay_type" />
+        <result property="remarkVoiceUrl" column="remark_voice_url" />
+        <result property="isProcessedOfRemark" column="is_processed_of_remark" />
+        <result property="backTime" column="back_time" />
+        <result property="takeAddress" column="take_address"/>
+		
+		<result property="backAddress" column="back_address"/>
+		
+		
+		
+	</resultMap>
+	
+	<resultMap id="managerAddressOrderResult" type="com.aplus.lk.clothes.entity.ManagerOrder">
+		<id property="id" column="id"/> 
+	    <result property="orderStatus" column="order_status" /> 
+	    <result property="finalPrice" column="final_price" />
+	    <result property="price" column="price" />
+	    <result property="userName" column="username" />
+	    <result property="content" column="content" />
+	    <result property="orderNumber" column="bespeak_order_number" />
+	    <result property="takeAddress" column="take_address" />
+	    <result property="backAddress" column="back_address" />
+	    <result property="employeeId" column="employee_id" />
+	    <result property="payType" column="pay_type" /> 
+	    <result property="payStatus" column="pay_status" />
+	    <result property="employeeMemo" column="employee_memo" />
+	    <result property="createTime" column="create_time" />
+	    <result property="backTime" column="back_time" />
+	    <result property="phoneNumber" column="phone_number" />
+	    
+	    <association property="managerAddress" resultMap="managerAddressResult"></association>
+	    
+	</resultMap>
+	
+	<resultMap id="managerAddressResult" type="com.aplus.lk.clothes.entity.ManagerAddress">
+		<result property="beiSendAddress" column="send_address" />
+	    <result property="beiDeliveryAddress" column="delivery_address" />
+	    
+	</resultMap>
+	
+	<resultMap id="employeeByIdResult" type="com.aplus.lk.clothes.entity.Employee">
+		<id property="id" column="id"/>
+		<result property="realName" column="real_name" />
+	    <result property="phone" column="phone" />
+	    
+	</resultMap>
+	
+	
+	
+	<select id="queryByLimit" parameterType="map" resultMap="managerOrderResult">
+		select m.id,m.create_time,m.update_time,m.order_status,m.price,m.final_price,
+		m.user_id,m.bespeak_order_number,m.content,m.description,m.phone_number,m.address_id,
+		m.employee_id,m.progress_id,m.pricture_image_url,m.appraise_id,m.pay_status,m.time,
+		m.status,m.pay_time,m.employee_memo,m.integral_num,m.pay_type,
+		m.remark_voice_url,m.is_processed_of_remark,m.back_time,
+		m.take_address,m.back_address,
+		o.username from lk_bespeak_order as m left join lk_clothes_address_info as o on m.address_id=o.id where 1 = 1
+		
+		<if test="orderNumber != null and orderNumber != ''">
+			and m.bespeak_order_number like CONCAT('%',#{orderNumber},'%')
+		</if>
+		<if test="status != null">
+			and m.status = #{status}
+		</if>
+		<if test="orderStatus != null">
+			and m.order_status = #{orderStatus}
+		</if>
+		<if test="payStatus != null">
+			and m.pay_status = #{payStatus}
+		</if>
+		<if test="phoneNumber != null and phoneNumber != ''">
+			and m.phone_number = #{phoneNumber}
+		</if>
+		
+		order by m.create_time desc
+		limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<!-- 获取记录数 -->
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_bespeak_order where 1 = 1 
+		<if test="orderNumber != null and orderNumber != ''">
+			and bespeak_order_number like CONCAT('%',#{orderNumber},'%')
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="orderStatus != null ">
+			and order_status = #{orderStatus}
+		</if>
+		<if test="payStatus != null">
+			and pay_status = #{payStatus}
+		</if>
+		<if test="phoneNumber != null and phoneNumber != ''">
+			and phone_number = #{phoneNumber}
+		</if>
+	</select>
+	
+	
+	<select id="queryManagerOrderById" parameterType="long" resultMap="managerAddressOrderResult">
+	  select m.id,m.pay_status,m.pay_type,m.content,m.order_status,m.bespeak_order_number,m.final_price,m.price,o.username,o.send_address,o.delivery_address,
+	  m.back_address,m.take_address,m.employee_id,m.employee_memo,m.create_time,m.back_time,m.phone_number 
+	  from lk_bespeak_order as m left join lk_clothes_address_info as o on m.address_id=o.id where m.id=#{id} ;
+	</select>
+	
+	<select id="queryEmployessById" parameterType="long" resultMap="employeeByIdResult">
+	  select phone,real_name from lk_employee where id=#{id};
+	</select>
+	
+    <select id="updateStatusById" parameterType="map">
+      update lk_bespeak_order set order_status=#{status} where id=#{id};
+    </select>
+    
+    <select id="updateEmployeeIdById" parameterType="map">
+      update lk_bespeak_order set employee_id=#{employeeId} where id=#{id};
+    </select>
+    
+    <insert id="createRecord" parameterType="com.aplus.lk.clothes.entity.ReassignmentRecord" >
+			INSERT INTO lk_reassignmentrecord (createTime,updateTime,orderId,operator,fromEmployeeId,toEmployeeId) values(now(),now(),#{orderId},#{operator},#{fromEmployeeId},#{toEmployeeId})
+	</insert>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.BusinessMapper">
+		<resultMap type="com.leyes.app.entity.Business" id="businessResult">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="name" column="name"/>
+		<result property="previewImage" column="preview_image"/>
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+		<result property="address" column="address"/>
+		<result property="telephone" column="telephone"/>
+		<result property="categoryId" column="category_id"/>
+		<result property="serverTime" column="server_time"/>
+		<result property="description" column="description"/>
+		<result property="status" column="status"/>
+		<result property="distance" column="distance"/>
+	</resultMap>
+
+	<select id="queryNearyByBusiness" resultMap="businessResult">
+		select b.id,b.name,b.preview_image,b.address, b.telephone,
+		b.server_time
+		<if test="latitude!='-1' and longitude!='-1'">
+			,
+			ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude}*PI()/180-b.latitude*PI()/180)/2),2)
+			+COS(#{latitude}*PI()/180)*COS(b.latitude*PI()/180)*POW(SIN((#{longitude}*PI()/180-b.longitude*PI()/180)/2),2)))*1000)
+			as distance 
+		</if>
+		FROM app_business b where category_id=#{categoryId} and status =0 
+		<!-- <if test="communityId !=null and communityId !=''">
+		and b.id in (SELECT business_id from app_business_community where community_id=#{communityId})
+		</if> -->
+		
+		<if test="latitude!='-1' and longitude!='-1'">
+		 <![CDATA[ HAVING distance < 6000]]>
+			 ORDER BY distance ASC
+		</if>
+		limit #{fristResult},10
+	</select>
+	
+	<select id="queryBusinessInfo" resultMap="businessResult">
+		select b.id,b.name,b.preview_image,b.address, b.telephone,
+		b.server_time,b.description FROM app_business b where id=#{businessId}
+	</select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.MemberMapper">
+	
+	<resultMap id="memberResult" type="com.aplus.lk.clothes.entity.Member">
+		
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date"/>
+		<result property="modifyDate" column="modify_date" />
+		<result property="username"  column="username" />
+		<result property="registrationID" column="registrationID" />
+		
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.Member" id="memberInfoResult">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="username" column="username"/>
+		<result property="gender" column="gender"/>
+		<result property="birth" column="birth"/>
+		<result property="address" column="address"/>
+		<result property="mobile" column="mobile"/>
+		<result property="score" column="score"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.PrintOrder" id="ordersResult">
+		<id property="id" column="id"/>
+		<result property="memberId" column="member_id" />
+		<result property="orderSn" column="order_sn" />
+		<result property="memberName" column="member_name" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="paymentStatus" column="payment_status" />
+		<result property="paymentConfigName" column="payment_config_name" />
+		<result property="orderStatus" column="order_status" />
+		<result property="exStatus" column="ex_status" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+	<select id="queryById" parameterType="string" resultMap="memberResult">
+		select id, create_date, modify_date, username, registrationID,deposit,score from lk_member where id = #{_parameter}
+	</select>
+	<select id="queryByPhoneNo" parameterType="string" resultMap="memberInfoResult">
+		select id,name,username,gender,birth,address,mobile,score,email from lk_member where mobile = #{_parameter}
+	</select>
+	
+	<select id="queryPrintOrder" resultMap="ordersResult" parameterType="map">
+		SELECT id,member_id,order_sn,member_name,total_amount,payment_status,
+		payment_config_name,order_status,ex_status,create_date from lk_print_order WHERE member_id=#{memberId} order by create_date desc  limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="queryPrintOrderCount" parameterType="string" resultType="int">
+		SELECT count(1) from lk_print_order WHERE member_id=#{_parameter}
+	</select>
+	<insert id="createMember" parameterType="com.aplus.lk.clothes.entity.Member" useGeneratedKeys="true" keyProperty="id">
+		insert into lk_member (id,create_date,modify_date,mobile,name,deposit) values(#{id},now(),now(),#{mobile},#{name},#{deposit}) 
+	</insert>
+	<update id="updateAccount" parameterType="com.aplus.lk.clothes.entity.Member">
+		update lk_member set
+		<if test="deposit!=null and deposit>=0">
+		deposit=#{deposit} 
+		</if>
+		 <if test="score!=null and score>=0">
+		 ,score=#{score}
+		 </if>
+		 where id=#{id}
+	</update>
+</mapper>

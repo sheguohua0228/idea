@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.WashClothesMapper">
+	
+	<resultMap id="washClothesResult" type="com.aplus.lk.clothes.entity.WashClothes">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_date" />
+		<result property="updateTime" column="modify_date"/>
+		<result property="clothesOrderId" column="clothes_order_id"/>
+		<result property="childBarCode" column="child_barCode"/>
+		<result property="description" column="description" />
+		<result property="totalPrice" column="total_price"/>
+		<result property="clothesName" column="clothes_name"/>
+		<result property="number" column="number"/>
+		<result property="amount" column="amount"/>
+		<result property="size" column="size"/>
+	</resultMap>
+	
+	<resultMap id="washClothesWithDescResult" type="com.aplus.lk.clothes.entity.WashClothes">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_date" />
+		<result property="updateTime" column="modify_date"/>
+		<result property="clothesOrderId" column="clothes_order_id"/>
+		<result property="childBarCode" column="child_barCode"/>
+		<result property="description" column="description" />
+		<result property="clothesName" column="clothes_name"/>
+		<result property="number" column="number"/>
+		<result property="amount" column="amount"/>
+		<result property="size" column="size"/>
+		<result property="washType" column="wash_type"/>
+		<result property="partsDesc" column="parts_desc"/>
+	 	<result property="sortingDesc" column="sorting_desc"/>
+	 	<result property="washDesc" column="wash_desc"/>
+	 	<result property="dryDesc" column="dry_desc"/>
+	 	<result property="ironingDesc" column="ironing_desc"/>
+	 	<result property="arrangeDesc" column="arrange_desc"/>
+	 	<result property="qcDesc" column="qc_desc"/>
+	</resultMap>
+	
+	<select id="queryWashClothesByOrderId" parameterType="long" resultMap="washClothesResult">
+		select * from lk_wash_clothes where clothes_order_id = #{orderId} order by id
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.WashClothes">
+		update lk_wash_clothes set child_barCode = #{childBarCode} , updateTime = now()
+		<if test="brand!=null and brand!=''">
+		,brand = #{brand}
+		</if>
+		<if test="color!=null and color!=''">
+		,color = #{color}
+		</if>
+		<if test="defective!=null and defective!=''">
+		,defective = #{defective}
+		</if>
+		<if test="custom!=null and custom!=''">
+		,custom = #{custom}
+		</if>
+		<if test="washType !=null and washType!=''">
+		,wash_type=#{washType}
+		</if>
+		<if test="partsDesc!=null and partsDesc!=''">
+		,parts_desc=#{partsDesc}
+		</if>
+		<if test="sortingDesc!=null and sortingDesc!=''">
+		,sorting_desc=#{sortingDesc}
+		</if>
+		<if test="washDesc!=null and washDesc!=''">
+		,wash_desc=#{washDesc}
+		</if>
+		<if test="dryDesc!=null and dryDesc!=''">
+		,dry_desc=#{dryDesc}
+		</if>
+		<if test="ironingDesc!=null and ironingDesc!=''">
+		,ironing_desc=#{ironingDesc}
+		</if>
+		<if test="arrangeDesc!=null and arrangeDesc!=''">
+		,arrange_desc=#{arrangeDesc}
+		</if>
+		<if test="qcDesc!=null and qcDesc!=''">
+		,qc_desc=#{qcDesc}
+		</if>
+		<if test="isOut!=null and isOut!=''">
+		,is_out=#{isOut}
+		</if>
+		 where id = #{id}
+	</update>
+	
+	<select id="queryByChildBarCode" parameterType="string" resultMap="washClothesResult">
+		select * from lk_wash_clothes where child_barCode = #{_parameter}
+	</select>
+	<update id="updateWashStatus" parameterType="map">
+		update lk_wash_clothes set washStatus = #{washStatus} , updateTime = now() where clothes_order_id = #{clothesOrderId} and child_barCode=#{childBarCode}
+	</update>
+	
+	<select id="queryWashedClothes" parameterType="map" resultType="long">
+		SELECT count(1) from lk_wash_clothes where clothes_order_id=#{clothesOrderId} and washStatus>=#{washStatus}
+	</select>
+	<select id="queryWashedClothesCount" parameterType="long" resultType="long">
+		SELECT count(1) from lk_wash_clothes where clothes_order_id=#{clothesOrderId}
+	</select>
+	<update id="updateClothesStatus" parameterType="map">
+		update lk_wash_clothes set washStatus=#{nextStatus}  where clothes_order_id=#{clothesOrderId} and washStatus=#{crrentStatus}
+	</update>
+	
+	<select id="queryClothesByPhoneBrand" parameterType="map" resultMap="washClothesWithDescResult">
+		SELECT w.* from lk_clothes_order_new o,lk_wash_clothes w WHERE w.clothes_order_id=o.id and o.phoneNumber=#{phone} and w.brand=#{brand} and w.clothes_name =#{clothesName} ORDER BY w.createTime desc LIMIT 0,1
+	</select>
+	
+	<select id="querySortingClothes" parameterType="map" resultMap="washClothesWithDescResult">
+		SELECT w.*,i.phoneNumber, i.username from lk_clothes_order_new o,
+		lk_wash_clothes w,lk_clothes_address_info i WHERE w.clothes_order_id=o.id and o.clothes_address_id=i.id and o.orderStatus in(2,3) and o.status !=3 
+		<if test="phoneNumber!=null and phoneNumber!=''">
+		 and o.phoneNumber=#{phoneNumber} 
+		</if>
+		<if test="userName !=null and userName!=''">
+		 and i.username =#{userName}
+		</if>
+		<if test="barCode !=null and barCode!=''">
+		 and w.child_barCode=#{barCode}
+		</if>
+		<if test="washTypes!=null">
+		and w.wash_type in
+		<foreach collection="washTypes" item="item" index="index" open="(" separator="," close=")">
+			 #{item}
+		</foreach>
+		 
+		</if>
+		<if test="ids !=null">
+		and	o.id in
+			<foreach collection="ids" item="item" index="index" open="(" separator="," close=")"> 
+				#{item}
+			</foreach>
+		</if>
+		 ORDER BY w.createTime desc,i.username asc
+		 limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="querySortingClothesCount" parameterType="map" resultType="int">
+		SELECT count(w.id) from lk_clothes_order_new o,
+		lk_wash_clothes w,lk_clothes_address_info i WHERE w.clothes_order_id=o.id and o.clothes_address_id=i.id  and o.orderStatus in(2,3) and o.status !=3 
+		<if test="phoneNumber!=null and phoneNumber!=''">
+		and o.phoneNumber=#{phoneNumber} 
+		</if>
+		<if test="userName !=null and userName!=''">
+		and i.username =#{userName}
+		</if>
+		<if test="barcode !=null and barcode!=''">
+		 and w.child_barCode=#{barCode}
+		</if>
+		<if test="washTypes!=null">
+		and w.wash_type in
+		<foreach collection="washTypes" item="item" index="index" open="(" separator="," close=")">
+			 #{item}
+		</foreach>
+		 
+		</if>
+		<if test="ids !=null">
+		and	o.id in
+			<foreach collection="ids" item="item" index="index" open="(" separator="," close=")"> 
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	<update id="modifyClothesPrice" parameterType="List">
+	 	<foreach collection ="list" item ="item" index ="index" separator =";"> 
+			update lk_wash_clothes
+			<set>
+			 total_price = total_price*#{item.discount}
+			</set>
+			  WHERE id =  #{item.clothesId}
+		 </foreach> 
+	</update>
+	
+	<select id="queryClothesTotalPrice" parameterType="Long" resultType="Double" >
+		select sum(total_price) from lk_wash_clothes WHERE clothes_order_id=#{_parameter}
+	</select>
+</mapper>

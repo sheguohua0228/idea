@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.MessageMapper">
+
+	<resultMap id="messageResult" type="com.aplus.lk.clothes.entity.Message">
+		<id property="id" column="id" />
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date" />
+		<result property="title" column="title" />
+		<result property="previewImageUrl" column="preview_image_url" />
+		<result property="publisher" column="publisher" />
+		<result property="messageType" column="message_type"/>
+		<result property="messageStatus" column="message_status"/>
+	</resultMap>
+	 <resultMap id="messageInfoResult" type="com.aplus.lk.clothes.entity.MessageContent" >
+		<result property="messageId" column="message_id" />
+		<result property="contentType" column="content_type" />
+		<result property="content" column="content"/>
+		<result property="sort" column="sort"/>
+	 </resultMap>
+	 
+	<resultMap type="com.aplus.lk.clothes.entity.MessageReceiveInfo" id="messageReceiverResult">
+		<result property="messageId" column="message_id" />
+		<result property="isRead" column="is_read"/>
+		<result property="communityId" column="community_id"/>
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="status" column="status"/>
+		<result property="memberId" column="member_id"/>
+	</resultMap> 
+	<resultMap type="java.util.HashMap" id="resultMaps"> 
+		<result property="id" column="id"/>
+		<result property="registrationID" column="registrationID"/>
+		<result property="android_or_ios" column="android_or_ios"/>
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Message" useGeneratedKeys="true" keyProperty="id">
+		insert into lk_message(create_date,modify_date,title,preview_image_url,publisher,message_type,message_status)
+		values(now(),now(),#{title},#{previewImageUrl},#{publisher},#{messageType},#{messageStatus})
+	</insert>
+	
+	<insert id="saveInfo" parameterType="List" >
+		INSERT INTO lk_message_receive_info (create_date,modify_date,message_id,community_id,member_id,is_read) 
+		VALUES
+		 <foreach collection ="list" item ="item" index ="index" separator =","> 
+			 (now(),now(),#{item.messageId},#{item.communityId},#{item.memberId},#{item.isRead})
+		 </foreach> 
+	</insert>
+	<insert id="saveContent" parameterType="List" >
+		INSERT INTO lk_message_content (create_date,modify_date,message_id,content,sort,content_type) 
+		VALUES
+		 <foreach collection ="list" item ="item" index ="index" separator =","> 
+			 (now(),now(),#{item.messageId},#{item.content},#{item.sort},#{item.contentType})
+		 </foreach> 
+	</insert>
+	
+	
+	
+	<select id="queryRegistIdByMobile"  resultMap="resultMaps">
+		SELECT registrationID,android_or_ios,id from lk_member WHERE mobile in
+		<foreach collection="array" open="(" close=")" item="phone" separator=",">
+			#{phone}
+		</foreach>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	 <select id="query" parameterType="map" resultMap="messageResult">
+	 	SELECT * from lk_message m WHERE message_status=0 
+	 	<if test="messageType!=null">
+	 		and message_type=#{messageType}
+	 	</if>
+	 	order by m.create_date desc  
+	 	limit #{firstResult}, #{maxResult}
+	 </select>
+	
+	<select id="queryCount" parameterType="map" resultType="int">
+		SELECT count(1) from lk_message m WHERE message_status=0 
+		<if test="messageType!=null">
+	 		and message_type=#{messageType}
+	 	</if>
+	</select>
+	
+	
+	 
+	<select id="findMessageById" parameterType="java.lang.String" resultMap="messageResult">
+		select * from lk_message where id =#{messageId}
+	</select>
+	 
+	
+	<select id="queryHouseholdOfCommunity" parameterType="string" resultMap="resultMaps">
+		SELECT registrationID,android_or_ios,id from lk_member WHERE community_id=#{communityId}
+	</select>
+	
+	<select id="queryAllPhone" resultType="java.util.HashMap">
+		SELECT  count( DISTINCT registrationID ),registrationID,android_or_ios,id,mobile from lk_member WHERE registrationID is not null group by registrationID 
+	</select>
+	 
+	 <select id="queryById" parameterType="long" resultMap="messageResult">
+	 	select * from lk_message where id=#{messageId}
+	 </select>
+ 	 <select id="queryContentByMessageId" parameterType="long" resultMap="messageInfoResult">
+ 	 	select message_id,content_type,content,sort from lk_message_content where message_id=#{messageId}
+ 	 </select>
+ 	 <select id="queryReceiveByMessageId" parameterType="long" resultMap="messageReceiverResult">
+ 	 	select message_id,member_id,is_read,community_id,orderNumber,status from lk_message_receive_info where message_id=#{messageId}
+ 	 </select>
+ 	 
+ 	 <select id="queryReceiveNumByMessageId" parameterType="long" resultType="int">
+ 	 	select count(1) from lk_message_receive_info where message_id=#{messageId}
+ 	 </select>
+</mapper>

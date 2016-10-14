@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.HelpFeedBackMapper">
+	
+	 <resultMap type="com.aplus.lk.clothes.entity.Feed" id="feedBackResult">
+	 	<id property="id" column="id"/>
+	 	<result property="createTime" column="create_time"/>
+	 	<result property="updateTime" column="update_time"/>
+	 	<result property="questionId" column="question_id"/>
+	 	<result property="answer" column="answer"/>
+	 	<result property="idHandle" column="is_handle"/>
+	 	<result property="userId" column="user_id"/>
+	 	<result property="orderNum" column="order_num"/>
+	 	<result property="questionDetail" column="question_detail"/>
+	 	<result property="phoneNo" column="phoneNo"/>
+	 	<result property="feedType" column="feedType"/>
+	 	<association property="member" resultMap="memberResult"/>
+	 	<association property="question" resultMap="questionResult"/>
+	 </resultMap>
+	<!-- 用户结果集 -->
+	<resultMap type="com.aplus.lk.clothes.entity.Member" id="memberResult">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+	</resultMap>
+	<resultMap type="com.aplus.lk.clothes.entity.Question" id="questionResult">
+		<id property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="questionType" column="question_type"/>
+		<result property="description" column="description"/>
+	</resultMap>
+	
+	
+	
+	<select id="queryQuestionList" parameterType="map" resultMap="questionResult">
+		select * from lk_question where 1=1
+		<if test="questionType!=null">
+			and question_type=#{questionType} 
+		</if>
+		 limit #{firstResult}, #{maxResult}
+	</select>
+ 	<select id="queryQuestionCount" parameterType="java.lang.Integer" resultType="int">
+ 		select count(1) from lk_question where 1=1 
+		<if test="_parameter!=null">
+			and question_type=#{_parameter}
+		</if>
+ 	</select>
+ 	<select id="queryQuestionDetail" parameterType="long" resultMap="questionResult">
+ 		select * from lk_question where id=${_parameter}
+ 	</select>
+	<select id="queryFeddBackList" parameterType="map" resultMap="feedBackResult">
+		SELECT m.username,m.name,m.mobile,m.id as memberId,q.id as qustionId,q.title,q.question_type,q.description,f.* from lk_question q,lk_feed f,lk_member m WHERE q.id=f.question_id and f.user_id=m.id and f.feedType!=1 
+		<if test="mobile!=null and mobile!=''">
+			and m.mobile = #{mobile}
+		</if>
+		<if test="username!=null and username!=''">
+			and m.username like CONCAT('%',#{username},'%')
+		</if>
+		<if test="orderNum!=null and orderNum!=''">
+			and f.order_num = #{orderNum}
+		</if>
+		<if test="type!=null">
+			and q.question_type=#{type}
+		</if>
+		<if test="feedType!=null">
+			and f.feedType=#{feedType}
+		</if>
+		order by f.create_time desc 
+		limit #{firstResult}, #{maxResult}
+	</select>
+	<select id="queryCount" parameterType="map" resultType="int">
+		SELECT count(1) from lk_question q,lk_feed f,lk_member m WHERE q.id=f.question_id and f.user_id=m.id and f.feedType!=1 
+	 	<if test="mobile!=null and mobile!=''">
+	 		and m.mobile = #{mobile}
+	 	</if>
+	 	<if test="username!=null and username!=''">
+	 		and m.username like CONCAT('%',#{username},'%')
+	 	</if>
+	 	<if test="orderNum!=null and orderNum!=''">
+	 		and f.order_num = #{orderNum}
+	 	</if>
+	 	<if test="type!=null">
+			and q.question_type=#{type}
+		</if>
+		<if test="feedType!=null">
+			and f.feedType=#{feedType}
+		</if>
+	</select>
+	 
+	 <!-- 查询电话反馈 -->
+	 <select id="queryTelFeedList" parameterType="map" resultMap="feedBackResult">
+		SELECT q.id as qustionId,q.title,q.question_type,q.description,f.* from lk_question q,lk_feed f WHERE q.id=f.question_id and f.feedType=1 
+		<if test="type!=null">
+			and q.question_type=#{type}
+		</if>
+		<if test="phone!=null and phone!=''">
+			and f.phoneNo=#{phone}
+		</if>
+		<if test="handle!=null">
+			and f.is_handle=#{handle}
+		</if>
+		<if test="orderNum!=null and orderNum!=''">
+			and f.order_num=#{orderNum}
+		</if>
+		order by f.create_time desc ,is_handle desc 
+		limit #{firstResult}, #{maxResult}
+	</select>
+	<select id="queryTelCount" parameterType="map" resultType="int">
+		SELECT count(1) from lk_question q,lk_feed f WHERE q.id=f.question_id and f.feedType=1 
+	 	<if test="type!=null">
+			and q.question_type=#{type}
+		</if>
+		<if test="phone!=null and phone!=''">
+			and f.phoneNo=#{phone}
+		</if>
+		<if test="handle!=null">
+			and f.is_handle=#{handle}
+		</if>
+		<if test="orderNum!=null and orderNum!=''">
+			and f.order_num=#{orderNum}
+		</if>
+	</select>
+	 <!-- 查询电话反馈 -->
+	 
+	 
+	 <select id="queryFeedDetail" parameterType="long" resultMap="feedBackResult">
+	 	SELECT m.username,m.name,m.mobile,m.id as memberId,q.id as qustionId,q.title,q.question_type,q.description,f.* from lk_question q,lk_feed f,lk_member m WHERE q.id=f.question_id and f.user_id=m.id AND F.id=#{_parameter}
+	 </select>
+	 <select id="queryTelFeedDetail" parameterType="long" resultMap="feedBackResult">
+		SELECT q.id as qustionId,q.title,q.question_type,q.description,f.* from lk_question q,lk_feed f WHERE q.id=f.question_id AND F.id=#{_parameter}
+	 </select>
+	 <update id="answerQuestion" parameterType="map">
+	 	update lk_feed set answer=#{answer},is_handle=1 where id=#{feedId}
+	 </update>
+	
+	 <insert id="saveQuestion" parameterType="com.aplus.lk.clothes.entity.Question" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO lk_question (create_time,update_time,title,question_type,description) values(now(),now(),#{title},#{questionType},#{description})
+	</insert>
+	
+	<insert id="saveFeed" parameterType="com.aplus.lk.clothes.entity.Feed">
+		INSERT INTO lk_feed (create_time,update_time,is_handle,order_num,question_id,question_detail,phoneNo,feedType) values(now(),now(),0,#{orderNum},#{questionId},#{questionDetail},#{phoneNo},#{feedType})
+	</insert>
+	<update id="updateQuestion" parameterType="com.aplus.lk.clothes.entity.Question">
+		update lk_question set update_time=now() 
+		<if test="title!=null and title!=''">
+			, title=#{title}
+		</if>
+		<if test="questionType!=null">
+			,question_type=#{questionType}
+		</if>
+		<if test="description!=null and description!=''">
+			,description=#{description}
+		</if>
+			 WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteQuestion" >
+		delete from lk_question where id in 
+		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+</mapper>

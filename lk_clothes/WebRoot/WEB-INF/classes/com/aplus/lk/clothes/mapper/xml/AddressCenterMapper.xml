@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.AddressCenterMapper">
+	
+	<resultMap id="addressCenterResult" type="com.aplus.lk.clothes.entity.AddressCenterPO">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude" />
+		<result property="address" column="address" />
+		<result property="serviceRange" column="service_range" />
+		<result property="flag" column="flag" />
+		<result property="name" column="name" />
+		<result property="icon" column="icon" />
+		<result property="centerType" column="center_type" />
+		<result property="employeeId" column="employee_id"/>
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.AddressCenterPO" id="addressCenterOfNameAndIdResult">
+		<id property="id" column="id"/>
+		<result property="name" column="name" />
+	</resultMap>	
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.AddressCenterPO">
+		insert into lk_address_center (createTime,updateTime,name,icon,service_range,flag,address,longitude,latitude, center_type)
+			values(now(),now(),#{name},#{icon},#{serviceRange},#{flag},#{address},#{longitude},#{latitude},#{centerType})
+	</insert>
+	
+	<select id="queryById" parameterType="long" resultMap="addressCenterResult">
+		select * from  lk_address_center where id = #{id}
+	</select>
+	
+	<select id="queryByName" parameterType="string" resultMap="addressCenterResult">
+		select * from lk_address_center where name = #{_parameter}
+	</select>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="addressCenterResult">
+		select * from lk_address_center where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		order by createTime desc 
+		limit #{firstResult},#{maxResult}
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.AddressCenterPO">
+		update lk_address_center set updateTime = now()
+			<if test="name != null and name != ''">
+				,name = #{name}
+			</if>
+			<if test="icon != null and icon != ''">
+				,icon = #{icon}
+			</if>
+			<if test="address != null and address != ''">
+				,address = #{address}
+			</if>
+			<if test="longitude != null and longitude != ''">
+				,longitude = #{longitude}
+			</if>
+			<if test="latitude != null and latitude != ''">
+				,latitude = #{latitude}
+			</if>
+			<if test="serviceRange != null and serviceRange != ''">
+				,service_range = #{serviceRange}
+			</if>
+			<if test="flag != null">
+				,flag = #{flag}
+			</if>
+			<if test="centerType != null">
+				,center_type = #{centerType}
+			</if>
+			,employee_id = #{employeeId,jdbcType=VARCHAR}
+			where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from lk_address_center where id in
+			<foreach collection="array" open="(" close=")" separator="," item="id">
+				#{id}
+			</foreach>
+	</delete>
+	
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_address_center where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+	</select>
+	
+	<select id="queryAllOfIdAndName" resultMap="addressCenterOfNameAndIdResult">
+		select id,name from lk_address_center order by createTime desc
+	</select>
+	
+	<select id="queryNameById" parameterType="long" resultType="string">
+		select name from lk_address_center where id = #{id}
+	</select>
+
+	<select id="queryAll" resultMap="addressCenterResult">
+		select * from lk_address_center order by createTime desc
+	</select>
+	
+	<select id="queryByCenterType" parameterType="int" resultMap="addressCenterResult">
+		select * from lk_address_center where center_type = #{centerType}
+	</select>
+	
+</mapper>

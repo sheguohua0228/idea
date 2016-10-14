@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.ClothesAddressMapper">
+	
+	<resultMap id="clothesAddressResult" type="com.aplus.lk.clothes.entity.ClothesAddress">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="userId" column="user_id"/>
+		<result property="deliveryAddress" column="delivery_address"/>
+		<result property="sendAddress" column="send_address" />
+		<result property="longitude" column="longitude"/>
+		<result property="latitude" column="latitude"/>
+		<result property="phoneNumber" column="phoneNumber"/>
+		<result property="username" column="username"/>
+		<result property="isAccord" column="is_accord"/>
+		<result property="addressCenterId" column="address_center_id" />
+	</resultMap>
+	
+	<select id="queryClothesAddressById" parameterType="long" resultMap="clothesAddressResult">
+		select * from lk_clothes_address_info where id = #{id}
+	</select>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.ClothesAddress" useGeneratedKeys="true" keyProperty="id">
+		insert into lk_clothes_address_info (createTime, updateTime,user_id, delivery_address, send_address, longitude, latitude, phoneNumber, username, is_accord,
+			address_center_id)
+			values (now(),now(),#{userId},#{deliveryAddress},#{sendAddress},#{longitude},#{latitude},#{phoneNumber},#{username},#{isAccord}, #{addressCenterId})
+	</insert>
+	
+	<select id="queryClothesAddressByUserId" parameterType="string" resultMap="clothesAddressResult">
+		select * from lk_clothes_address_info where user_id = #{_parameter}
+	</select>
+	
+	<select id="queryClothesAddressByOrderId" parameterType="string" resultMap="clothesAddressResult">
+		select * from lk_clothes_address_info where user_id = #{_parameter}
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.ClothesAddress">
+		update lk_clothes_address_info set updateTime = now(), delivery_address = #{deliveryAddress}, send_address = #{sendAddress},
+			longitude = #{longitude}, latitude = #{latitude}, is_accord = true , address_center_id = #{addressCenterId} where id = #{id}
+	</update>
+		
+</mapper>

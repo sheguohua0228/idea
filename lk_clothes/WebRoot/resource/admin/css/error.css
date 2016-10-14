@@ -1,0 +1,24 @@
+/* ---------- ErrorPage ---------- */
+.errorPage .errorBox {
+	height: 87px;
+	line-height: 30px;
+	width: 347px;
+	padding: 80px 38px 33px 115px;
+	margin: 100px auto;
+	background: url(../images/error_page_bg.gif) no-repeat 0px 0px;
+}
+
+.errorPage .errorMessage {
+	line-height: 50px;
+	color: #2366a6;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.errorPage .errorUrl {
+	color: #333333;
+}
+
+.errorPage .errorUrl a {
+	color: #2366a6;
+}

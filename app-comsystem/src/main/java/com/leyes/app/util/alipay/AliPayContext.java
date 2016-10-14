@@ -1,0 +1,18 @@
+package com.leyes.app.util.alipay;
+
+/**
+ * 
+* @TypeName: AliPayContext 
+* @Description: TODO
+* @author：Jingpeng 
+* @date 2016年7月21日 下午2:14:17 
+*
+ */
+public class AliPayContext {
+	public final static String partner="2088911669397924";
+	public final static String seller="equick2015@163.com";
+	public final static String rsaPrivate="MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALEHsU54kJqAbghqjozD0sgsZTU9eeVsXOXU1Fq8gWh93MZOj2mAWpZIwiiOHmvnXFC095hqINfn4bhbNjbLL25gwXs4nOLyf2nTZ+oBWcgjwKL5fDHxTEFW9P619DuBGhQOkgClDWoNxS1GRSPXoLohmuQHPj4PCtmJxT54Li8vAgMBAAECgYAqtNJfPdKUkxr4SMxuxObah2s69sOrRwL6Jue7o/IMBSD3bghGyUIRMygzpGVOXpf0mFOKnz+hFj1rvgVMHqQoM89Flq4pRDfsHsRlpyRe7uEdMkziuk/kjIjzkzF+GDMFhoeMtYJZpbq3yAXR+QmzkGDChvILSq2w3y4Zzj1v0QJBANlAj7rcE/F92ZvaTbYBj1dsR+WgsvpCQT9NagIabJcfpuE2n1dQCbbYik30QPJ7sXsDWvsW8jeMc+AtSkL9b5UCQQDQmqSaKJHSxiohMw51FoMqTwshKoewftR2pYny0k57VaA49zHPjWVj55ewK2rdLu8IhILNUXUF8x5OH7GvMgKzAkB+TZeCBjKeAhGCF194gd2o8K235T5IWj5+o+4OfPhGv8MQSeZHJ6QOJkP54BfmIV1ka+X39jYpb0FqwknbOmYlAkAppxdC6OLlMUhsRKOYYZxjMFFKmBFr/ocyAa/f2nptShWqCkHZ7aPXJQE23hSCgcKc8sijcqZpP7hHZTC3iMbdAkAXQ5S1RrzcJfV4tJHCTfOogD1hPe+quVsg8dJR/gjTPE0/yP5ocenHxI48hrxqVWaWFGHyF6PiXQdF9oMwIpbZ";
+	public final static String rsaPublic="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxB7FOeJCagG4Iao6Mw9LILGU1PXnlbFzl1NRavIFofdzGTo9pgFqWSMIojh5r51xQtPeYaiDX5+G4WzY2yy9uYMF7OJzi8n9p02fqAVnII8Ci+Xwx8UxBVvT+tfQ7gRoUDpIApQ1qDcUtRkUj16C6IZrkBz4+DwrZicU+eC4vLwIDAQAB";
+	public final static String notifyUrl="http://120.26.210.54:8080/app-web/comSystem/alipayNotify";
+	 
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.ClothesPriceMapper">
+	
+	<resultMap id="clothesPriceResult" type="com.aplus.lk.clothes.entity.ClothesPrice">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="name" column="clothesName" />
+		<result property="type" column="type"/>
+		<result property="originalPrice" column="price"/>
+		<result property="discountPrice" column="discount_price" />
+		<result property="imageUrl" column="imageUrl"/>
+		<result property="desc" column="description"/>
+		<result property="alias" column="alias" />
+		<result property="discountRatio" column="discount_ratio"/>
+		<result property="unit" column="unit"/>
+	</resultMap>
+	
+	<!-- 查询洗衣价格 -->
+	<select id="query" parameterType="java.lang.String" resultMap="clothesPriceResult">
+		select * from lk_clothes_price where 1 = 1 
+		<if test="_parameter != null and _parameter != ''">
+			and clothesName like CONCAT('%',#{_parameter},'%')
+		</if>
+	</select>
+	
+	<!-- 添加洗衣价格 -->
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.ClothesPrice">
+		insert into lk_clothes_price (createTime,updateTime,clothesName,type,price,discount_price,imageUrl,description,alias)
+			values (#{createTime},#{updateTime},#{name},#{type},#{originalPrice},#{discountPrice},#{imageUrl},#{desc},#{alias})
+	</insert>
+	
+	<!-- 修改洗衣价格 -->
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.ClothesPrice">
+		update lk_clothes_price set updateTime = #{updateTime}, clothesName = #{name} , type = #{type}, price = #{originalPrice},
+			discount_price = #{discountPrice}, imageUrl = #{imageUrl}, description = #{desc} 
+			<if test="alias != null and alias != ''">
+				, alias = #{alias}
+			</if>
+			where id = #{id}
+	</update>
+	
+	<!-- 删除洗衣价格 -->
+	<delete id="delete" parameterType="long">
+		delete from lk_clothes_price where id = #{id}
+	</delete>
+	
+	<select id="queryById" parameterType="long" resultMap="clothesPriceResult">
+		select * from lk_clothes_price where id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.OrderOfEmployeeMapper">
+	<resultMap type="com.leyes.app.entity.GoodsOrder" id="goodsOrderWithItemResult">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="userId" column="user_id" />
+		<result property="addressId" column="address_id" />
+		<result property="orderStatus" column="order_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="communityId" column="community_id" />
+		<result property="price" column="price" />
+		<result property="finalPrice" column="final_price" />
+		<result property="integralNumber" column="integral_number" />
+		<result property="balance" column="balance" />
+		<result property="orderNumber" column="order_number" />
+		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="payTime" column="pay_time" />
+		<result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="cardId" column="card_id" />
+		<result property="appraise" column="appraise" />
+		<result property="freight" column="freight" />
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="remark" column="remark"/>
+		<result property="operator" column="operator"/>
+		<result property="finisher" column="finisher"/>
+		<collection property="goodsItems" ofType="com.leyes.app.entity.GoodsOrderItem">
+			<result property="goodsName" column="goods_name"/>
+			<result property="number" column="number"/>
+			<result property="image" column="image"/>
+		</collection>
+	</resultMap>
+	<resultMap type="com.leyes.app.entity.GoodsOrder" id="goodsOrderResult">
+	<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="userId" column="user_id" />
+		<result property="addressId" column="address_id" />
+		<result property="orderStatus" column="order_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="communityId" column="community_id" />
+		<result property="price" column="price" />
+		<result property="finalPrice" column="final_price" />
+		<result property="integralNumber" column="integral_number" />
+		<result property="balance" column="balance" />
+		<result property="orderNumber" column="order_number" />
+		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="payTime" column="pay_time" />
+		<result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="cardId" column="card_id" />
+		<result property="appraise" column="appraise" />
+		<result property="freight" column="freight" />
+		<result property="deliveryTime" column="delivery_time"/>
+		<result property="remark" column="remark"/>
+		<result property="operator" column="operator"/>
+	</resultMap>
+	<select id="queryGoodsOrdersByCommunityId" resultMap="goodsOrderWithItemResult">
+		SELECT o.id,o.create_time,o.order_number,o.user_id,o.address_id,o.delivery_time,o.remark,
+		(SELECT operator from app_goods_order_delivery_info WHERE order_id
+		=o.id  and order_status=1 limit 0,1) as operator,
+		(SELECT finisher from app_goods_order_delivery_info WHERE order_id
+		=o.id  and order_status=2 limit 0,1) as finisher,
+		i.goods_name,i.number,i.image 
+		FROM app_goods_order as o join app_goods_order_item as i on o.id=i.order_id and  o.order_status in (#{orderStatus},2) 
+		and o.pay_status =#{payStatus} and
+		o.`status`=#{status} AND o.community_id in
+		<foreach collection="list" open="(" close=")" separator=","
+			item="communityId">
+			#{communityId}
+		</foreach>
+		order by operator ASC ,o.create_time DESC
+		limit #{firstResult},10
+	</select>
+	<select id="queryDeliveryGoodsOrder" resultMap="goodsOrderWithItemResult">
+		SELECT o.id,o.create_time,o.order_number,o.user_id,o.address_id,o.delivery_time,
+		 (SELECT finisher from app_goods_order_delivery_info WHERE order_id
+		=o.id  and order_status=#{orderStatus} limit 0,1) as finisher,
+		o.remark,i.goods_name,i.number ,i.image  
+		from app_goods_order as o join app_goods_order_item as i on o.id=i.order_id and 
+		o.order_status =#{orderStatus} and o.id in 
+		(SELECT order_id from app_goods_order_delivery_info where order_status=1 and operator=#{employeeId}) 
+		order by
+		 o.delivery_time ASC ,o.create_time DESC  limit #{firstResult},10
+	</select>
+	<select id="propertyQueryBespeakOrder" resultMap="goodsOrderWithItemResult">
+		SELECT o.id,o.create_time,o.order_number,o.user_id,o.address_id,o.delivery_time,o.remark,
+		 (SELECT finisher from app_goods_order_delivery_info WHERE order_id
+		=o.id  and order_status=#{orderStatus} limit 0,1) as finisher,
+		it.goods_name,it.number,it.image  from app_goods_order as o 
+		JOIN app_goods_order_item as it ON it.order_id=o.id and
+		 o.community_id in
+		<foreach collection="list" open="(" close=")" separator=","
+			item="communityId">
+			#{communityId}
+		</foreach>
+		and o.pay_status=#{payStatus} and o.`status`=#{status} and o.order_status =#{orderStatus}
+		 and o.id in(SELECT order_id from app_goods_order_delivery_info WHERE order_status=#{orderStatus} and finisher='0') 
+		order by
+		 o.delivery_time ASC ,o.create_time DESC  limit #{firstResult},10
+	</select>
+	
+	<select id="propertyQueryDeliveryGoodsOrder" resultMap="goodsOrderWithItemResult">
+		 SELECT o.id,o.create_time,o.order_number,o.user_id,o.address_id,o.delivery_time,
+		 (SELECT finisher from app_goods_order_delivery_info WHERE order_id
+		=o.id  and order_status=#{orderStatus} limit 0,1) as finisher,
+		o.remark,i.goods_name,i.number ,i.image  
+		from app_goods_order as o join app_goods_order_item as i on o.id=i.order_id and 
+		o.order_status =#{orderStatus} and o.id in 
+		(SELECT order_id from app_goods_order_delivery_info where order_status=2 and finisher=#{employeeId}) 
+		order by
+		 o.delivery_time ASC ,o.create_time DESC  limit #{firstResult},10
+	</select>
+	
+	<select id="queryFinishGoodsOrder" resultMap="goodsOrderWithItemResult">
+		SELECT o.id,o.create_time,o.order_number,o.user_id,o.address_id,o.remark,i.goods_name,i.number,i.image  
+		from app_goods_order as o join app_goods_order_item as i on o.id=i.order_id and
+		o.order_status =#{orderStatus} and o.id in 
+		(SELECT order_id from app_goods_order_delivery_info where order_status=1 and operator=#{employeeId}) 
+		order by
+		o.create_time DESC limit #{firstResult},10
+	</select>
+	<select id="queryDeliveryStatusOperator" resultType="java.lang.String">
+		select operator from app_goods_order_delivery_info where order_id=#{orderId} and order_status=#{orderStatus}
+	</select>
+	
+	<update id="updateDeliveryStatusOperator">
+		UPDATE app_goods_order_delivery_info 
+		<set>
+			<if test="operator !=null and operator !=''">
+				operator =#{operator}
+			</if>
+			<if test="finisher !=null and finisher!= ''">
+				finisher =#{finisher}
+			</if>
+		</set>
+		   WHERE order_id =#{orderId} AND order_status=#{orderStatus}
+	</update>
+	<update id="updateGoodsOrderDeliveryTime">
+		update app_goods_order 
+		<set>
+			delivery_time=#{deliveryTime}
+			<if test="remark !=null and remark !=''">
+			,remark=#{remark}
+			</if>
+		</set>
+		where id=#{orderId}
+	</update>
+	<select id="queryCommunityIdByOrderId" resultType="java.lang.String">
+		select community_id from app_goods_order where id=#{orderId}
+	</select>
+	<update id="updateGoodsOrderStatus">
+		update app_goods_order 
+		<set>
+			order_status=#{orderStatus}
+		</set>
+		where id=#{orderId}
+	</update>
+	<select id="queryGoodsOrderBackTime" resultType="java.util.Date">
+	SELECT delivery_time from app_goods_order WHERE id=#{orderId}
+	</select>
+</mapper>

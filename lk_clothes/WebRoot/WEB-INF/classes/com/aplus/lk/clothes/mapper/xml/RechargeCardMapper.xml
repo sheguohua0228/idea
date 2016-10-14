@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.RechargeCardMapper">
+	
+	<resultMap id="rechargeCardResult" type="com.aplus.lk.clothes.entity.RechargeCard">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="denomination" column="denomination"/>
+		<result property="price" column="price"/>
+		<result property="startTime" column="start_time"/>
+		<result property="invalidTime" column="invalid_time"/>
+		<result property="password" column="password"/>
+		<result property="remark" column="remark"/>
+		<result property="useStatus" column="use_status"/>
+		<result property="rechargeType" column="recharge_type"/>
+		<result property="time" column="time"/>
+		<result property="use_condition" column="useCondition"/>
+		<result property="discount_price" column="discountPrice"/>
+	</resultMap>
+	
+	<select id="query"  parameterType="map" resultMap="rechargeCardResult">
+		SELECT * from lk_recharge_card ORDER BY createTime desc  
+	 	limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="queryCount" parameterType="map" resultType="int">
+		SELECT count(1) from lk_recharge_card
+	</select>
+	
+	<insert id="saveAll"  parameterType="List">
+		insert into lk_recharge_card(createTime,updateTime,denomination,price,start_time,
+		invalid_time,password,remark,use_status,recharge_type,time,use_condition,
+		discount_price,use_type,darn_num,visaPhoto_num,passport_num) values 
+		<foreach collection ="list" item ="item" index ="index" separator =","> 
+			 (#{item.createTime},#{item.updateTime},#{item.denomination},#{item.price},
+			 #{item.startTime},#{item.invalidTime},#{item.password},#{item.remark},
+			 #{item.useStatus},#{item.rechargeType},#{item.time},#{item.useCondition},
+			 #{item.discountPrice},#{item.useType},#{item.darnNum},#{item.visaPhotoNum},#{item.passportNum})
+		 </foreach>
+	</insert>
+</mapper>

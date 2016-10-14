@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.QRCodeMapper">
+	
+	<resultMap id="qrCodeResult" type="com.aplus.lk.clothes.entity.QRCode">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_date" />
+		<result property="updateTime" column="modify_date"/>
+		<result property="printOrderId" column="print_order_id"/>
+		<result property="code" column="code"/>
+		<result property="expiredTime" column="expired_time"/>
+		<result property="isUse" column="is_use"/>
+		<result property="photoFrameId" column="photo_frame_id"/>
+		<result property="userTime" column="user_time"/>
+		
+	</resultMap>
+	<!-- and q.id not in (SELECT q1.id from lk_qrcode q1,lk_print_order p1 WHERE q1.print_order_id=p1.id 
+		and p1.payment_status = 2 and p1.order_status!=3 and q1.is_use=0 
+		<![CDATA[and q1.expired_time<now()]]>
+		 )-->
+	<select id="queryAll"  parameterType="map" resultMap="qrCodeResult">
+		select * from lk_qrcode q , lk_print_order p where q.print_order_id=p.id and p.total_amount>0
+		and p.payment_status = 2 and p.order_status!=3  
+
+		order by q.create_date desc
+		limit #{firstResult}, #{maxResult}
+	</select>
+	<!-- and q.id not in
+(SELECT q1.id from lk_qrcode q1,lk_print_order p1 WHERE q1.print_order_id=p1.id 
+		and p1.payment_status = 2 and p1.order_status!=3 and q1.is_use=0 <![CDATA[and q1.expired_time<now()]]>) -->
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_qrcode q , lk_print_order p where 
+		q.print_order_id=p.id and p.total_amount>0 and p.payment_status = 2 and p.order_status!=3 
+	</select>
+</mapper>

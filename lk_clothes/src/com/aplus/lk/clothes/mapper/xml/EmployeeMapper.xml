@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.EmployeeMapper">
+	
+	<resultMap id="employeeResult" type="com.aplus.lk.clothes.entity.Employee">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_date" />
+		<result property="updateTime" column="modify_date"/>
+		<result property="gender" column="gender"/>
+		<result property="phone" column="phone"/>
+		<result property="username" column="username" />
+		<result property="password" column="password"/>
+		<result property="realName" column="real_name"/>
+		<result property="addressCenterId" column="address_center_id" />
+		<result property="headImageUrl" column="headImageUrl" />
+		<result property="registrationID" column="registrationID"/>
+		<result property="departmentId" column="department_id" />
+		
+	</resultMap>
+	
+	<select id="queryEmployeeByUsernamePassword" parameterType="java.lang.String" resultType="com.aplus.lk.clothes.entity.Employee">
+		select * from lk_employee as employee where employee.username = #{0} and employee.password = #{1}
+	</select>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Employee">
+		insert into lk_employee(id,create_date,modify_date,gender,phone,username,password,real_name,address_center_id,headImageUrl,department_id,recommendedCode) 
+			values(#{id},now(),now(),#{gender},#{phone},#{username},#{password},#{realName},#{addressCenterId},#{headImageUrl},#{departmentId},#{recommendedCode})
+	</insert>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.Employee">
+		update lk_employee set modify_date = now()
+			<if test="password != null and password != ''">
+				,password = #{password}
+			</if>
+			, gender = #{gender}
+			<if test="phone != null and phone != ''">
+				,phone = #{phone}
+			</if>
+			<if test="realName != null and realName != ''">
+				,real_name = #{realName}
+			</if>
+			<if test="addressCenterId != null and addressCenterId != ''">
+				,address_center_id = #{addressCenterId}
+			</if>
+			<if test="headImageUrl !=null and headImageUrl != ''">
+				,headImageUrl = #{headImageUrl}
+			</if>
+			<if test="departmentId != null and departmentId != ''">
+				,department_id = #{departmentId}
+			</if>
+			where id = #{id}
+	</update>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="employeeResult">
+		select * from lk_employee where 1 = 1
+		<if test="name != null and name != ''">
+			and real_name like CONCAT('%',#{name},'%')
+		</if>
+		 order by create_date desc 
+		limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(1) from lk_employee where 1 = 1
+		<if test="name != null and name != ''">
+			and real_name like CONCAT('%',#{name},'%')
+		</if>
+	</select>
+	
+	<select id="queryByUsername" parameterType="string" resultMap="employeeResult">
+		select * from lk_employee where username = #{_parameter}
+	</select>
+	
+	<select id="queryById" parameterType="string" resultMap="employeeResult">
+		select * from lk_employee where id = #{_parameter}
+	</select>
+	
+	<delete id="delete">
+		delete from lk_employee where id in
+			<foreach collection="array" open="(" close=")" separator="," item="id">
+				#{id}
+			</foreach>
+	</delete>
+	
+	<!-- 根据社区查询员工 -->
+	<select id="queryByAddressCenterId" parameterType="long" resultMap="employeeResult">
+		select * from lk_employee where address_center_id = #{addressCenterId}
+	</select>
+	
+	<select id="queryCountByDepartmentId" parameterType="string" resultType="int">
+		select count(*) from lk_employee where department_id = #{_parameter}
+	</select>
+	
+	<select id="findAll"  resultMap="employeeResult">
+		select * from lk_employee where 1=1
+	</select>
+	<select id="queryRegistIdByOrderId" parameterType="long" resultType="string">
+		SELECT e.registrationID from lk_employee e,lk_clothes_order_new o where o.employee_id=e.id and o.id=#{orderId}
+	</select>
+</mapper>

@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.ClothesOrderMapper">
+	
+	<resultMap id="clothesOrderResult" type="com.aplus.lk.clothes.entity.ClothesOrder">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="status" column="status" />
+		<result property="price" column="price"/>
+		<result property="userId" column="user_id" />
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="content" column="content"/>
+		<result property="desc" column="description"/>
+		<result property="barCode" column="barCode"/>
+		<result property="phoneNumber" column="phoneNumber"/>
+		<result property="time" column="time"/>
+		<result property="prictureImageUrl" column="prictureImageUrl"/>
+		<result property="employeeId" column="employee_id"/>
+		<result property="clothesAddressId" column="clothes_address_id"/>
+		<result property="appraiseId" column="appraise_id"/>
+		<result property="payStatus" column="payStatus"/>
+		<result property="payType" column="pay_type" />
+		<result property="backAddress" column="back_address"/>
+		<result property="takeAddress" column="take_address"/>
+		<result property="factoryRemark" column="factory_remark"/>
+		
+		<result property="remarkVoiceUrl" column="remark_voice_url" />
+		<result property="isProcessedOfRemark" column="is_processed_of_remark" />
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.ClothesOrder" id="clothesOrderUserResult">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="status" column="status" />
+		<result property="price" column="price"/>
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="content" column="content"/>
+		<result property="desc" column="description"/>
+		<result property="barCode" column="barCode"/>
+		<result property="phoneNumber" column="phoneNumber"/>
+		<result property="time" column="time"/>
+		<result property="prictureImageUrl" column="prictureImageUrl"/>
+		<result property="employeeId" column="employee_id"/>
+		<result property="clothesAddressId" column="clothes_address_id"/>
+		<result property="appraiseId" column="appraise_id"/>
+		<result property="payStatus" column="payStatus"/>
+		<result property="payType" column="pay_type" />
+		<result property="userId" column="user_id" />
+		<result property="backAddress" column="back_address"/>
+		<result property="takeAddress" column="take_address"/>
+		<result property="factoryRemark" column="factory_remark"/>
+		
+		<result property="remarkVoiceUrl" column="remark_voice_url" />
+		<result property="isProcessedOfRemark" column="is_processed_of_remark" />
+		
+		<association property="member" resultMap="memberResult"></association>
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.ClothesOrder" id="clothesOrderWithAddressResult">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="orderStatus" column="orderStatus"/>
+		<result property="status" column="status" />
+		<result property="price" column="price"/>
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="content" column="content"/>
+		<result property="desc" column="description"/>
+		<result property="barCode" column="barCode"/>
+		<result property="phoneNumber" column="phoneNumber"/>
+		<result property="time" column="time"/>
+		<result property="prictureImageUrl" column="prictureImageUrl"/>
+		<result property="employeeId" column="employee_id"/>
+		<result property="clothesAddressId" column="clothes_address_id"/>
+		<result property="appraiseId" column="appraise_id"/>
+		<result property="userId" column="user_id" />
+		<result property="remarkVoiceUrl" column="remark_voice_url" />
+		<result property="isProcessedOfRemark" column="is_processed_of_remark" />
+		<result property="payType" column="pay_type" />
+		<result property="payStatus" column="payStatus"/>
+		<result property="backAddress" column="back_address"/>
+		<result property="takeAddress" column="take_address"/>
+		
+		<association property="clothesAddress" resultMap="clothesAddressResult"></association>
+	</resultMap>
+	
+	<!-- 洗衣地址结果集 -->
+	<resultMap type="com.aplus.lk.clothes.entity.ClothesAddress" id="clothesAddressResult">
+		<id property="id" column="addressId"/>
+		<result property="username" column="username" />
+		<result property="phoneNumber" column="addressPhone" />
+		<result property="deliveryAddress" column="delivery_address" />
+	</resultMap>
+	
+	<!-- 用户结果集 -->
+	<resultMap type="com.aplus.lk.clothes.entity.Member" id="memberResult">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="name" column="name" />
+		<result property="mobile" column="mobile" />
+	</resultMap>
+	<!-- 衣服信息结果集 -->
+	<resultMap type="com.aplus.lk.clothes.entity.WashClothes" id="washClothesResult">
+		<id property="id" column="id" />
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTimes" />
+		<result property="clothesName" column="clothes_name"/>
+		<result property="childBarCode" column="child_barCode" />
+		<result property="number" column="number" />
+		<result property="clothesOrderId" column="clothes_order_id" />
+		<result property="description" column="description" />
+	</resultMap>
+	<!-- 洗衣状态结果集 -->
+	<resultMap type="com.aplus.lk.clothes.entity.WashStatus" id="washStatusResult">
+		<id property="id" column="id" />
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTimes" />
+		<result property="clothesOrderStatus" column="clothes_order_status"/>
+		<result property="clothesOrderId" column="clothes_order_id" />
+		<result property="description" column="description"/>
+		<result property="getOrBackTime" column="get_or_back_time"/>
+	</resultMap>
+	<!-- 订单改派记录 -->
+	<resultMap type="com.aplus.lk.clothes.entity.ReassignmentRecord" id="reassignmentRecordResult">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime" />
+		<result property="orderId" column="orderId"/>
+		<result property="operator" column="operator"/>
+		<result property="fromEmployeeId" column="fromEmployeeId"/>
+		<result property="toEmployeeId" column="toEmployeeId"/>
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.OutFactoryClothes" id="outFactoryClothes">
+	    
+	    <result property="orderNumber" column="orderNumber"/>
+	    <result property="childBarCode" column="child_barCode"/>
+	    <result property="clothesName" column="clothes_name"/>
+	    <result property="createTime" column="createTime"/>
+	    <result property="userName" column="username"/>
+	    <result property="phoneNumber" column="phoneNumber"/>
+	    <result property="realName" column="real_name"/>
+	    <result property="phone" column="phone"/>
+	    <result property="clothesOrderId" column="clothes_order_id"/>
+	    <result property="brand" column="brand"/> 
+	</resultMap>
+	
+	<!-- 应出库订单列表 -->
+	<resultMap type="com.aplus.lk.clothes.entity.OutFactoryClothes" id="waitFactoryList">
+	    <result property="clothesOrderId" column="id"/>
+	    <result property="orderNumber" column="orderNumber"/>
+	    <result property="childBarCode" column="barCode"/>
+	    <result property="userName" column="username"/>
+	    <result property="phoneNumber" column="phoneNumber"/>
+	    <result property="realName" column="real_name"/>
+	    <result property="phone" column="phone"/>
+	    <result property="desc" column="description"/>
+	    <result property="imgUrl" column="clothesImageUrl"/>
+	    <result property="outImageUrl" column="outImageUrl"/>
+	    <result property="sendAddress" column="send_address"/>
+	    <result property="createTime" column="createTime"/>
+	    <result property="factoryRemark" column="factory_remark"/>	    
+	</resultMap>
+	<resultMap type="com.aplus.lk.clothes.entity.OutFactoryClothes" id="clothesDetail">
+	    <result property="clothesName" column="clothes_name"/>
+	    <result property="brand" column="brand"/>
+	    <result property="childBarCode" column="child_barCode"/>
+	    <result property="partsDesc" column="parts_desc"/>
+	    <result property="outSourcing" column="is_out" />
+	    <result property="outDesc" column="out_desc"/> 
+	</resultMap>
+	
+	<select id="queryAll" parameterType="map" resultMap="clothesOrderResult">
+		select * from lk_clothes_order_new where 1 = 1 
+		<if test="barCode != null and barCode != ''">
+			and barCode like CONCAT('%',#{barCode},'%')
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			and orderNumber like CONCAT('%',#{orderNumber},'%')
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="orderStatus != null and orderStatus != ''">
+			and orderStatus = #{orderStatus}
+		</if>
+		<if test="payStatus != null and payStatus != ''">
+			and payStatus = #{payStatus}
+		</if>
+		order by createTime desc
+		limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="clothesOrderWithAddressResult">
+		select o.*,m.id as addressId ,m.username,m.phoneNumber as addressPhone, m.delivery_address from lk_clothes_order_new as o left join lk_clothes_address_info as m on o.clothes_address_id = m.id where 1 = 1
+		<if test="barCode != null and barCode != ''">
+			and o.barCode like CONCAT('%',#{barCode},'%')
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			and o.orderNumber like CONCAT('%',#{orderNumber},'%')
+		</if>
+		<if test="status != null">
+			and o.status = #{status}
+		</if>
+		<if test="orderStatus != null">
+			<choose>
+			  <when test="orderStatus == 2">
+			     and o.orderStatus in(#{orderStatus},3)
+			     and o.print_sign is null
+			  </when>
+			  <otherwise>
+			     and o.orderStatus = #{orderStatus}
+			  </otherwise>
+			</choose>
+		</if>
+		<if test="payStatus != null">
+			and o.payStatus = #{payStatus}
+		</if>
+		<if test="phoneNumber != null and phoneNumber != ''">
+			and m.phoneNumber = #{phoneNumber}
+		</if>
+		and o.status != 3
+		order by o.createTime desc
+		limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<!-- 获取记录数 -->
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_clothes_order_new where 1 = 1 
+		<if test="barCode != null and barCode != ''">
+			and barCode like CONCAT('%',#{barCode},'%')
+		</if>
+		<if test="orderNumber != null and orderNumber != ''">
+			and orderNumber like CONCAT('%',#{orderNumber},'%')
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="orderStatus != null">
+			<choose>
+			  <when test="orderStatus == 2">
+			     and orderStatus in(#{orderStatus},3)
+			     and print_sign is null
+			  </when>
+			  <otherwise>
+			     and orderStatus = #{orderStatus}
+			  </otherwise>
+			</choose>
+		</if>
+		<if test="payStatus != null">
+			and payStatus = #{payStatus}
+		</if>
+		and status != 3
+	</select>
+	
+	<select id="queryClothesOrderById" parameterType="long" resultMap="clothesOrderUserResult">
+		select o.*,m.* from lk_clothes_order_new as o left join lk_member as m on o.user_id = m.id where o.id = #{id}
+	</select>
+	
+	<select id="queryClothesOrderByBarCode" parameterType="java.lang.String" resultMap="clothesOrderUserResult">
+		select o.*,m.* from lk_clothes_order_new as o left join lk_member as m on o.user_id = m.id where o.barCode = #{_parameter}
+	</select>
+	
+	<update id="updateOrderStatus" parameterType="map">
+		update lk_clothes_order_new set 
+			orderStatus = #{orderStatus} ,
+			<if test="isProcessedOfRemark != null">
+				is_processed_of_remark = #{isProcessedOfRemark},
+			</if>
+			<if test="factoryRemark!=null and factoryRemark!=''">
+				factory_remark=#{factoryRemark},
+			</if>
+			updateTime = #{updateTime} 
+			where id = #{id}
+	</update>
+	
+	<update id="updateStatusById" parameterType="map">
+		update lk_clothes_order_new set status = #{status} , updateTime = now() where id = #{id}
+	</update>
+	
+	<update id="updateIsProcessOfRemarkById" parameterType="map">
+		update lk_clothes_order_new set is_processed_of_remark = #{isProcessedOfRemark} , updateTime = now() where id = #{id}
+	</update>
+	
+	<!-- 根据字条形码查询订单 -->
+	<select id="queryClothesOrderByChildBarCode" parameterType="string" resultMap="clothesOrderResult">
+		select o.* from lk_clothes_order_new as o join lk_wash_clothes as clothes on o.id = clothes.clothes_order_id 
+			where clothes.child_barCode = #{_parameter}
+	</select>
+	
+	<update id="updateEmployeeIdById" parameterType="map">
+		update lk_clothes_order_new set employee_id = #{employeeId} , updateTime = now() where id = #{id}
+	</update>
+	<insert id="createTelOrder" parameterType="com.aplus.lk.clothes.entity.ClothesOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT into lk_clothes_order_new (createTime,updateTime,clothes_address_id,employee_id,user_id,phoneNumber,payStatus,
+		status,orderStatus,orderNumber,price ) values(now(),now(),#{clothesAddressId},#{employeeId},#{userId},#{phoneNumber},#{payStatus},
+		#{status},#{orderStatus},#{orderNumber},#{price})
+	</insert>
+	
+	<insert id="createRecord" parameterType="com.aplus.lk.clothes.entity.ReassignmentRecord" >
+			INSERT INTO lk_reassignmentrecord (createTime,updateTime,orderId,operator,fromEmployeeId,toEmployeeId) values(now(),now(),#{orderId},#{operator},#{fromEmployeeId},#{toEmployeeId})
+	</insert>
+	
+	<select id="queryBackWashList" parameterType="map" resultMap="clothesOrderWithAddressResult">
+	select o.*,m.id as addressId ,m.username,m.phoneNumber as addressPhone, 
+	m.delivery_address from lk_clothes_order_new as o left join 
+	lk_clothes_address_info as m on o.clothes_address_id = m.id where o.isBackWash =1
+	<if test="phoneNumber != null and phoneNumber != ''">
+		and o.phoneNumber = #{phoneNumber}
+	</if>
+	and o.status != 3
+	order by o.createTime desc
+	limit #{firstResult}, #{maxResult}
+	</select>
+	
+	<select id="queryBackWashListCount" parameterType="map" resultType="int">
+	
+	SELECT count(1) from lk_clothes_order_new o where o.isBackWash =1 
+	<if test="phoneNumber != null and phoneNumber != ''">
+		and o.phoneNumber = #{phoneNumber}
+	</if>
+	and o.status != 3
+	</select>
+	
+	<select id="queryInfoByOrderNo" parameterType="string" resultType="java.util.HashMap">
+		SELECT e.registrationID as employeeRGID,m.id,m.registrationID from lk_clothes_order_new o,lk_employee e ,lk_member m WHERE o.employee_id=e.id and o.user_id=m.id and o.orderNumber=#{orderNumber}
+	</select>
+	
+	<select id="queryHistoryOrder" parameterType="map" resultMap="clothesOrderResult">
+		SELECT * from lk_clothes_order_new WHERE user_id in( SELECT user_id FROM lk_clothes_order_new WHERE ID=#{orderId}) and id!=#{orderId} AND status !=3 order by createTime desc
+	limit #{firstResult}, #{maxResult}
+	</select>
+	<select id="queryHistoryOrderCount" parameterType="map" resultType="int">
+		SELECT count(1) from lk_clothes_order_new WHERE user_id in( SELECT user_id FROM lk_clothes_order_new WHERE ID=#{orderId}) and id!=#{orderId} AND status !=3 
+	</select>
+
+	
+	<select id="queryBarCode" parameterType="String" resultMap="outFactoryClothes">
+	    select b.orderNumber,a.brand,a.clothes_order_id,a.child_barCode,a.clothes_name,a.createTime,c.username,c.phoneNumber,d.real_name,d.phone from lk_wash_clothes as a ,lk_clothes_order_new as b, lk_clothes_address_info as c ,
+	    lk_employee as d where a.clothes_order_id=b.id and b.clothes_address_id=c.id and b.employee_id=d.id and a.washStatus in (1,2,3) and a.clothes_order_id=(select clothes_order_id from lk_wash_clothes where child_barCode=#{barCode});
+	</select>
+ 
+	
+	<update id="modifyOrderPrice" parameterType="map">
+		<if test="orderId !=null">
+		update lk_clothes_order_new set price=#{totalPrice} WHERE id =#{orderId}
+		</if>
+	</update>
+	
+	<select id="queryOrderCountByPhoneNum" parameterType="String" resultType="int">
+		select count(*) from lk_clothes_order_new where
+			phoneNumber = #{_parameter} and status != 3
+	</select>
+	
+	<select id="queryWashList" parameterType="map" resultMap="waitFactoryList">
+	     select b.id,b.orderNumber,b.barCode,c.username,c.phoneNumber,d.real_name,d.phone,b.factory_remark,b.description,a.clothesImageUrl,a.outImageUrl,a.createTime 
+	     ,c.send_address from lk_wash_status_description as a,lk_clothes_order_new as b, lk_clothes_address_info as c ,lk_employee as d 
+	     where b.clothes_address_id=c.id and b.employee_id=d.id and b.orderStatus = 3 and b.status = 1 and a.clothes_order_id=b.id and a.clothes_order_status=2
+	     <if test="phoneNumber != null and phoneNumber != ''">
+	     and c.phoneNumber = #{phoneNumber}
+	     </if>
+	     <if test="barCode != null and barCode != ''">
+	     and b.id=(select clothes_order_id from lk_wash_clothes where child_barCode=#{barCode})
+	     </if>
+	     order by a.createTime ;
+	</select>
+	
+	<select id="queryClothesDetail" resultMap="clothesDetail">
+	     select a.clothes_name,a.brand,a.child_barCode,a.parts_desc,a.is_out,a.out_desc from lk_wash_clothes as a ,
+	     lk_clothes_order_new as b where b.id=a.clothes_order_id and b.orderNumber=#{orderNumber} and a.washStatus in(1,2,3);
+	</select>
+	
+	<update id="updateOrderPrintStatus" parameterType="long">
+	     update lk_clothes_order_new set print_sign="已打印" where id=#{orderId};
+	</update>
+	
+	<select id="queryCollectOrderCount" resultType="int">
+	  select o.id from lk_clothes_order_new as o ,lk_wash_status_description as m where o.orderStatus in(2,3) and 
+	  o.id = m.clothes_order_id and m.clothes_order_status = 2 
+	   and year(m.createTime)=year(now()) and month(m.createTime)=month(now()) and day(m.createTime)=day(now()) and o.status != 3 and o.status = 1;
+	</select>
+	
+	<select id="queryCommunityOrderCount" resultType="int">
+	  select o.id from lk_clothes_order_new as o ,lk_wash_status_description as m where o.orderStatus = 1 and 
+	  o.id = m.clothes_order_id and m.clothes_order_status = 1 
+	   and year(m.createTime)=year(now()) and month(m.createTime)=month(now()) and day(m.createTime)=day(now())  and o.status = 1;
+	</select>
+	
+	<select id="queryClothesCount" parameterType="int" resultType="int">
+	  select count(id) from lk_wash_clothes where clothes_order_id=#{orderId};
+	</select>
+	
+	<select id="querySortCount" parameterType="map" resultType="int">
+	  select count(id) from lk_wash_clothes where clothes_order_id=#{orderId} and clothes_name like "%${clothes_name}%";
+	</select>
+	
+	<update id="updateFactoryRemark" parameterType="map">
+	  update lk_clothes_order_new set factory_remark=#{factoryRemark} where orderNumber=#{orderNumber};
+	</update>
+
+    <update id="updateFactoryMatter" parameterType="map">
+      update lk_clothes_order_new as a ,lk_wash_clothes as b set b.out_desc=#{factoryMatter} where a.orderNumber=#{orderNumber} and a.id = b.clothes_order_id 
+      and b.child_barCode=#{childBarCode};
+    </update>
+    <update id="finishOrder" parameterType="com.aplus.lk.clothes.entity.ClothesOrder" >
+		update lk_clothes_order_new set payStatus=1,payTime=now(),pay_type=#{payType} where id=#{id}
+	</update>
+</mapper>

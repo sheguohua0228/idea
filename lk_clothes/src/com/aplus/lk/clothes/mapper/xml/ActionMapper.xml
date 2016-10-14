@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.ActionMapper">
+	
+	<resultMap id="actionResult" type="com.aplus.lk.clothes.entity.Action">
+		
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date"/>
+		<result property="roleName" column="role_name" />
+		<result property="actionName" column="action_name" />
+		<result property="resource" column="resource" />
+		<result property="menuIndex" column="menu_index" />
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Action">
+		insert into lk_clothes_action(id,create_date,modify_date,action_name,role_name,resource,menu_index)
+			values(#{id},#{createDate},#{modifyDate},#{actionName},#{roleName},#{resource},#{menuIndex})
+	</insert>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="actionResult">
+		select * from lk_clothes_action where 1 = 1
+		<if test="actionName != null and actionName != ''">
+			and action_name like CONCAT('%',#{actionName},'%')
+		</if>
+		order by create_date desc
+		limit #{firstResult},#{maxResult}
+	</select>
+
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_clothes_action
+		<if test="actionName != null and actionName != ''">
+			where action_name like CONCAT('%',#{actionName},'%')
+		</if>
+	</select>
+	
+	<select id="queryActionByActionName" parameterType="java.lang.String" resultMap="actionResult">
+		select * from lk_clothes_action where action_name = #{_parameter}
+	</select>
+	
+	<select id="queryActionByRoleName" parameterType="java.lang.String" resultMap="actionResult">
+		select * from lk_clothes_action where role_name = #{_parameter}
+	</select>
+	
+	<select id="queryActionByResource" parameterType="java.lang.String" resultMap="actionResult">
+		select * from lk_clothes_action where resource = #{_parameter}
+	</select>
+
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.Action">
+		update lk_clothes_action set action_name = #{actionName} , role_name = #{roleName},
+			resource = #{resource} , menu_index = #{menuIndex},  modify_date = #{modifyDate} where id = #{id}
+	</update>
+	
+	<delete id="delete" >
+		delete from lk_clothes_action where id in 
+		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+	
+	<select id="queryActionById" parameterType="java.lang.String" resultMap="actionResult">
+		select * from lk_clothes_action where id = #{_parameter}
+	</select>
+	
+	<!-- 获取被绑定的分组数量 -->
+	<select id="queryGroupCountByActionId" parameterType="java.lang.String" resultType="int">
+		select count(*) from lk_clothes_group_manager_action where action_set_id = #{_parameter}
+	</select>
+	
+	<select id="queryActionsByMenuIndex" resultMap="actionResult">
+		select * from lk_clothes_action where menu_index in
+			<foreach collection="array" open="(" close=")" separator="," item="menuIndex">#{menuIndex}</foreach>
+	</select>
+	
+	<select id="queryActionsByGroupId" parameterType="java.lang.String" resultMap="actionResult">
+		select a.* from lk_clothes_action as a join lk_clothes_group_manager_action as ga on a.id = ga.action_set_id 
+			and ga.group_set_id = #{_parameter}
+	</select>
+	
+	<select id="queryAllActions" resultMap="actionResult">
+		select * from lk_clothes_action
+	</select>
+	
+</mapper>

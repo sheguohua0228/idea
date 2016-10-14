@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.GroupManagerMapper">
+	
+	<resultMap id="groupManagerResult" type="com.aplus.lk.clothes.entity.GroupManager">
+		
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date"/>
+		<result property="groupName" column="group_name" />
+		<result property="groupInfo" column="group_name" />
+		<result property="masterName" column="master_name" />
+		<result property="masterId" column="master_id" />
+		<result property="status" column="status" />
+	</resultMap>
+	
+	<resultMap id="actionResult" type="com.aplus.lk.clothes.entity.Action">
+		<id property="id" column="id"/>
+		<result property="createDate" column="create_date" />
+		<result property="modifyDate" column="modify_date"/>
+		<result property="roleName" column="role_name" />
+		<result property="actionName" column="action_name" />
+		<result property="resource" column="resource" />
+		<result property="menuIndex" column="menu_index" />
+	</resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.GroupManager" id="groupManagerWithActionResult" extends="groupManagerResult">
+		<collection property="actionSet" javaType="java.util.Set" resultMap="actionResult"></collection>		
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.GroupManager">
+		insert into lk_clothes_group_manager (id,create_date, modify_date, group_name, group_info, master_name , master_id, status)
+		 	values(#{id},#{createDate},#{modifyDate},#{groupName},#{groupInfo},#{masterName},#{masterId},#{status})
+	</insert>
+	
+	<insert id="saveGroupAction" parameterType="map">
+		insert into lk_clothes_group_manager_action(group_set_id, action_set_id) values(#{groupId},#{actionId})
+	</insert>
+	
+	<delete id="deleteGroupAction" parameterType="map">
+		delete from lk_clothes_group_manager_action where group_set_id = #{groupId} 
+		<if test="actionId != null and actionId != ''">
+			and action_set_id = #{actionId}
+		</if>
+	</delete>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="groupManagerResult">
+		select * from lk_clothes_group_manager where 1= 1
+		<if test="groupName != null and groupName != ''">
+			and group_name like CONCAT('%',#{groupName},'%')
+		</if>
+		limit #{firstResult},#{maxResult}
+	</select>
+
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_clothes_group_manager where 1= 1
+		<if test="groupName != null and groupName != ''">
+			and group_name like CONCAT('%',#{groupName},'%')
+		</if>
+	</select>
+	
+	<select id="queryGroupManagerByName" parameterType="java.lang.String" resultMap="groupManagerResult">
+		select * from lk_clothes_group_manager where group_name = #{_parameter}
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.GroupManager">
+		update lk_clothes_group_manager set group_name = #{groupName} ,
+			group_info = #{groupInfo}, modify_date = #{modifyDate} where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from lk_clothes_group_manager where id in
+			<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+	
+	<delete id="deleteGroupActionsByGroupId">
+		delete from lk_clothes_group_manager_action where group_set_id in
+		<foreach collection="array" open="(" close=")" separator="," item="groupId">
+			#{groupId}
+		</foreach>
+	</delete>
+	
+	<select id="queryGroupManagerById" parameterType="java.lang.String" resultMap="groupManagerResult">
+		select * from lk_clothes_group_manager where id = #{_parameter}
+	</select>
+	
+	<select id="queryAdminCountByGroupManagerId" parameterType="java.lang.String" resultType="int">
+		select count(*) from lk_admin_group_manager where group_set_id = #{_parameter}
+	</select>
+	
+	<select id="queryGroupManagerWithActionById" parameterType="java.lang.String" resultMap="groupManagerWithActionResult">
+		select g.*,action.* from lk_clothes_group_manager as g left join lk_clothes_group_manager_action as group_action on group_action.group_set_id 
+		 	= g.id left join lk_clothes_action as action on group_action.action_set_id = action.id where g.id = #{_parameter}
+	</select>
+	
+	<select id="queryAuthorityById" parameterType="java.lang.String" resultType="java.lang.String">
+		select action_set_id from lk_clothes_group_manager_action where group_set_id = #{_parameter}
+	</select>
+	
+	<select id="queryRoleNameListByGroupId" parameterType="string" resultType="string">
+		select action_set_id from lk_clothes_group_manager_action where group_set_id = #{_parameter}
+	</select>
+	
+	<select id="queryAll" resultMap="groupManagerResult">
+		select * from lk_clothes_group_manager
+	</select>
+	
+</mapper>

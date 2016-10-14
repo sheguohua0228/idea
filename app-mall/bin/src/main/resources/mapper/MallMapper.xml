@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.MallMapper">
+	<resultMap type="com.leyes.app.entity.Goods" id="goodsResult">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="previewImage" column="preview_image"/>
+		<result property="name" column="name" />
+		<result property="businessId" column="business_id"/>
+		<result property="selfSupport" column="self_support"/>
+		<result property="price" column="price" />
+		<result property="shelfState" column="shelf_state" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="marketPrice" column="market_price" />
+		<result property="saleVolume" column="sale_volume" />
+		<result property="stockNumber" column="stock_number" />
+		<result property="introduce" column="introduce" />
+		<result property="detail" column="detail"/>
+		<result property="brand" column="brand" />
+		<result property="categoryId" column="category_id"/>
+		<result property="isTop" column="is_top"/>
+		<result property="specification" column="specification" />
+		<result property="distribution" column="distribution" />
+		<result property="endTime" column="end_time"/>
+	</resultMap>
+	<resultMap type="com.leyes.app.entity.GoodsAppraise" id="appraiseResult">
+		<result property="userId" column="user_id" />
+		<result property="serviceStar" column="service_star" />
+		<result property="content" column="content"/>
+	</resultMap>
+	<resultMap type="com.leyes.app.entity.GoodsOrderItem" id="goodsOrderItemResult">
+		<result property="image" column="image"/>
+		<result property="number" column="number"/>
+		<result property="goodsName" column="goods_name"/>
+		<result property="price" column="price"/>
+		<result property="appraiseId" column="appraise_id"/>
+	</resultMap>
+	<resultMap type="com.leyes.app.entity.GoodsOrderDeliveryInfo" id="orderDeliveryResult">
+		<result property="description" column="description"/>
+		<result property="createTime" column="create_time"/>
+	</resultMap>
+	<resultMap type="com.leyes.app.entity.GoodsOrder" id="goodsOrderResult">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="userId" column="user_id"/>
+		<result property="addressId" column="address_id"/>
+		<result property="orderStatus" column="order_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="price" column="price"/>
+		<result property="finalPrice" column="final_price"/>
+		<result property="integralNumber" column="integral_number"/>
+		<result property="balance" column="balance"/>
+		<result property="orderNumber" column="order_number"/>
+		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="payTime" column="pay_time"/>
+		<result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="cardId" column="card_id"/>
+		<result property="appraise" column="appraise"/>
+		<result property="freight" column="freight"/>
+	</resultMap>
+	 
+	<select id="queryGoods" resultMap="goodsResult">
+		SELECT id,preview_image,name,price,sale_volume,market_price
+		from app_goods WHERE category_id in  
+		<foreach collection="categoryIds" open="(" close=")" separator="," item="categoryId">
+				#{categoryId}
+		</foreach>
+		 AND
+		shelf_state=#{shelfState} ORDER BY ${sort},is_top DESC
+		LIMIT #{firstResult},10
+	</select>
+	<select id="queryGoodsByBusinessId" resultMap="goodsResult">
+		SELECT id,preview_image,name,price,sale_volume,market_price
+		from app_goods WHERE business_id=#{businessId} AND
+		shelf_state=#{shelfState} ORDER BY is_top DESC ,
+		 create_time desc
+		LIMIT #{firstResult},10
+	</select>
+	
+	<select id="queryNewGoods" resultMap="goodsResult">
+		SELECT id,preview_image,name,price,sale_volume,introduce,market_price
+		from app_goods WHERE 
+		shelf_state=#{shelfState} ORDER BY create_time desc
+		LIMIT 0,5
+	</select>
+	<select id="queryFavoriteGoods" resultMap="goodsResult">
+		SELECT id,preview_image,name,price,sale_volume,market_price
+		from app_goods WHERE 
+		shelf_state=#{shelfState} ORDER BY update_time desc  limit 0,4
+	</select>
+	
+	<select id="queryGoodsImages" resultType="java.lang.String">
+		SELECT path from app_goods_image WHERE goods_id=#{goodsId} 
+	</select>
+
+	<select id="queryGoodsDescription" resultType="java.lang.String">
+		SELECT detail from app_goods WHERE id=#{goodsId}
+	</select>
+
+	<select id="queryGoodsInfo" resultMap="goodsResult">
+		SELECT
+		id,name,introduce,price,market_price,sale_volume,
+		specification,brand,distribution,stock_number,category_id,end_time
+		from app_goods where id=#{goodsId}
+	</select>
+	<select id="queryAppraise" resultMap="appraiseResult">
+		SELECT user_id,service_star,content from app_goods_appraise where goods_id
+		=#{goodsId}
+		and is_show = 1 ORDER BY is_hot DESC,create_time DESC
+		LIMIT #{firstResult},10
+	</select>
+	<select id="queryGoodsPrice" resultType="java.math.BigDecimal">
+		select price from app_goods where id=#{goodsId}
+	</select>
+
+	<select id="queryGoodsBaseInfo" resultMap="goodsResult">
+		SELECT id,name,price,preview_image,stock_number from app_goods WHERE id=#{goodsId}
+	</select>
+	<insert id="createGoodsOrder" parameterType="com.leyes.app.entity.GoodsOrder">
+		insert into app_goods_order
+		(id,create_time,update_time,user_id,price,final_price,freight,
+		address_id,order_status,status,order_number,integral_number,balance,pay_status,community_id 
+		)
+		values (#{id},now(),now(),#{userId},#{price},#{finalPrice},#{freight},#{addressId},
+		#{orderStatus,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		#{status,
+		typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{orderNumber},
+		#{integralNumber},#{balance},
+		#{payStatus,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		#{communityId}
+		)
+	</insert>
+	<insert id="createGoodsOrderItem" parameterType="java.util.List">
+		INSERT INTO app_goods_order_item (
+		id,create_time,update_time,order_id,
+		goods_id,image,goods_name,number,price
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},now(),now(),#{item.orderId},#{item.goodsId},
+			#{item.image},#{item.goodsName},#{item.number},#{item.price}
+			)
+		</foreach>
+	</insert>
+	<insert id="createGoodsOrderDeliveryInfo" parameterType="com.leyes.app.entity.GoodsOrderDeliveryInfo">
+		insert into app_goods_order_delivery_info(
+			id,create_time,update_time,order_id,order_status,description,operator
+		)
+		values(
+			#{id},now(),now(),#{orderId},#{orderStatus,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{description},#{operator}
+		)
+	</insert>
+	<update id="deductGoodsStockNumber" parameterType="java.util.List">
+		<foreach collection="goodsList" item="item" index="index" open="" close="" separator=";">
+			update app_goods
+			<set>
+				stock_number=#{item.stockNumber},sale_volume=#{item.saleVolume}
+			</set>
+			where id=#{item.id}
+		</foreach>
+	</update>
+
+	<select id="queryGoodsOrder" resultMap="goodsOrderResult">
+		SELECT o.id,o.order_status,o.price,o.appraise,o.pay_status,o.freight,o.order_number
+		FROM app_goods_order as o WHERE o.user_id= #{userId} 
+		AND o.status=#{status} 
+		<if test="payStatus !=-1">
+	 		AND pay_status =#{payStatus}
+	 	</if>
+	 	<if test="orderStatus !=-1 and orderStatus!=4">
+	 	  AND order_status =#{orderStatus}
+	 	</if>
+	 	<if test="orderStatus==4">
+	 	 AND order_status !=#{orderStatus}
+	 	</if>
+		ORDER BY o.create_time DESC
+		LIMIT #{firstResult},10
+	</select>
+	<select id="queryRefundGoodsOrder" resultMap="goodsOrderResult">
+		SELECT o.id,o.order_status,o.price,o.appraise,o.pay_status,o.freight,o.order_number
+		FROM app_goods_order as o JOIN app_goods_apply_refund as a
+		ON o.user_id=#{userId} AND o.id=a.order_id 
+		AND o.status=#{status} 
+		ORDER BY o.create_time DESC
+		LIMIT #{firstResult},10
+	</select>
+	
+	
+	<select id="queryGoodsOrderItem" resultMap="goodsOrderItemResult">
+		select image,number,goods_name,price,goods_id,appraise_id from app_goods_order_item where order_id=#{orderId}
+	</select>
+	
+	<select id="queryGoodsOrderDetail" resultMap="goodsOrderResult">
+		select order_number,create_time,price,balance,integral_number,address_id,order_status,pay_status,freight
+		 from app_goods_order where id=#{orderId}
+	</select>
+	
+	<select id="queryGoodsOrderDeliveryInfo" resultMap="orderDeliveryResult">
+		SELECT description,create_time from app_goods_order_delivery_info WHERE order_id =#{orderId} ORDER BY create_time DESC
+	</select>
+	
+	<insert id="createAppraise" parameterType="com.leyes.app.entity.GoodsAppraise">
+		insert into app_goods_appraise (id,create_time,update_time,order_id,user_id,goods_id,service_star,content)
+		values(
+		#{id},now(),now(),#{orderId},#{userId},#{goodsId},#{serviceStar},#{content}
+		) 
+	</insert>
+	<select id="queryLimitTimeGoods" resultMap="goodsResult">
+		SELECT id,preview_image,price,market_price,end_time
+		from app_goods WHERE  
+		shelf_state=#{shelfState} and <![CDATA[ end_time >now()]]> ORDER BY is_top DESC 
+		LIMIT 0,5
+	</select>
+	 
+	<insert id="saveApplyRefund" parameterType="com.leyes.app.entity.GoodsOrderRefund">
+		insert into app_goods_apply_refund
+		(
+		id,create_time,update_time,order_id,reason,deal_status,deal_result
+		) values(
+		#{id},now(),now(),#{orderId},#{reason},#{dealStatus},#{dealResult}
+		)  
+	</insert>
+	
+	<select id="queryGoodsOrderPrice" resultMap="goodsOrderResult">
+		select price,order_number from app_goods_order where id=#{orderId}
+	</select>
+	
+	<select id="queryGoodsLikeName" resultMap="goodsResult">
+		select id,name from app_goods where name like CONCAT('%',#{keyWord},'%') 
+	</select>
+	
+	<select id="queryOrderStatusByOrderNumber" resultMap="goodsOrderResult">
+		select id,balance,integral_number,pay_status,user_id,card_id from app_goods_order where order_number=#{orderNumber}
+	</select>
+	
+	<update id="updateGoodsOrderPayStatus" parameterType="com.leyes.app.entity.GoodsOrder">
+	 	UPDATE app_goods_order SET update_time=now(),pay_time=now(),
+		 pay_status=#{payStatus,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		 pay_type=#{payType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		 final_price=#{finalPrice},pay_time=now(),
+		 balance=#{balance},integral_number=#{integralNumber}
+		 <if test="cardId !=null and cardId !=''">
+			, card_id=#{cardId}
+		 </if>
+		  WHERE id=#{id}
+	</update>
+	
+	<select id="queryGoodsOrderStatus" resultMap="goodsOrderResult">
+		select pay_status,order_status from app_goods_order where id=#{orderId}
+	</select>
+	
+	<update id="deleteGoodsOrder">
+		update app_goods_order set update_time=now(),status=#{status} where id=#{orderId}
+	</update>
+	<update id="updateGoodsOrderAppraiseId">
+		update app_goods_order_item set appraise_id=#{appraiseId} where goods_id=#{goodsId} and order_id=#{orderId}
+	</update>
+	
+	<select id="queryAddressIdByOrderNumber" resultType="java.lang.String">
+		select address_id from app_goods_order where order_number=#{orderNumber}
+	</select>
+	
+	<update id="updateGoodsOrderStatus">
+		update app_goods_order SET update_time=now(),order_status =#{orderStatus} WHERE id=#{orderId}
+	</update>
+</mapper>

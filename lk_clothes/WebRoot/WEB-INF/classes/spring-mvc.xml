@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="   
+           http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd   
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd  
+           http://www.springframework.org/schema/mvc   
+           http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd" 
+     default-lazy-init="true">
+           
+    <!-- SpringMVC配置 -->  
+      
+    <!-- 通过component-scan 让Spring扫描org.aplus.controller下的所有的类，让Spring的代码注解生效 -->  
+    <context:component-scan base-package="com.aplus.lk.clothes.controller"></context:component-scan> 
+    
+    
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
+    <!-- 这里拦截器还有一种配置方法【针对路径进行配置】 推荐使用这个，方便直观 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/*/*"/>
+    		<mvc:mapping path="/*"/>
+    		<mvc:mapping path="/"/>
+    		<mvc:mapping path=""/>
+    		<mvc:exclude-mapping path="/admin/getCallInfo"/>
+    		<mvc:exclude-mapping path="/conn"/>
+			<bean class="com.aplus.lk.clothes.interceptor.AdminLoginIntercepter"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+    
+    <!-- 配置js，css等静态文件直接映射到对应的文件夹，不被DispatcherServlet处理 -->
+    <mvc:resources location="/resource/" mapping="/resource/**"/>
+    
+    <!-- 配置页面访问地址www.xxx.com/about返回的静态html文件
+	<mvc:resources location="/WEB-INF/view/" mapping="/view/**"/> -->
+    <!-- 走servlet的默认配置，先走默认的web.xml配置的servlet，没有的话才找对应controller -->
+    <mvc:default-servlet-handler />
+    
+    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+    	<property name="supportedMediaTypes">  
+	        <list>  
+	            <value>application/json;charset=UTF-8</value>  
+	       </list>  
+    	</property>
+	</bean>
+      
+    <!-- 配置SpringMVC的视图渲染器， 让其前缀为:/ 后缀为.jsp  将视图渲染到/page/<method返回值>.jsp中 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"  >
+    	<property name="prefix" value="/WEB-INF/view/"></property>
+  		<property name="suffix" value=".jsp"></property>
+    </bean>  
+  
+  	<!-- 文件上传配置 -->
+    <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>104857600</value><!-- 上传文件大小限制为100M，100*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+</beans>  

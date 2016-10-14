@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.SheduleMapper">
+	
+	<resultMap id="sheduleResult" type="com.aplus.lk.clothes.entity.Shedule">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="monday" column="monday" />
+		<result property="mondayTime" column="monday_time" />
+		<result property="tuesday" column="tuesday" />
+		<result property="tuesdayTime" column="tuesday_time" />
+		<result property="wednesday" column="wednesday" />
+		<result property="wednesdayTime" column="wednesday_time" />
+		<result property="thursday" column="thursday" />
+		<result property="thursdayTime" column="thursday_time" />
+		<result property="friday" column="friday" />
+		<result property="fridayTime" column="friday_time" />
+		<result property="saturday" column="saturday" />
+		<result property="saturdayTime" column="saturday_time" />
+		<result property="sunday" column="sunday" />
+		<result property="sundayTime" column="sunday_time" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Shedule" useGeneratedKeys="true" keyProperty="id">
+		insert into lk_schedule 
+			(
+				createTime, 
+				updateTime, 
+				monday, 
+				monday_time, 
+				tuesday, 
+				tuesday_time, 
+				wednesday, 
+				wednesday_time, 
+				thursday, 
+				thursday_time, 
+				friday, 
+				friday_time, 
+				saturday, 
+				saturday_time, 
+				sunday, 
+				sunday_time, 
+				begin_time, 
+				end_time
+			)
+			values 
+			(
+				#{createTime},
+				#{updateTime},
+				#{monday},
+				#{mondayTime},
+				#{tuesday},
+				#{tuesdayTime},
+				#{wednesday},
+				#{wednesdayTime},
+				#{thursday},
+				#{thursdayTime},
+				#{friday},
+				#{fridayTime},
+				#{saturday},
+				#{saturdayTime},
+				#{sunday},
+				#{sundayTime},
+				#{beginTime},
+				#{endTime}
+			)
+	</insert>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="sheduleResult">
+		select * from lk_schedule sh 
+			     where 1=1
+			     order by sh.createTime desc
+				 limit 0, 7
+	</select>
+	
+</mapper>

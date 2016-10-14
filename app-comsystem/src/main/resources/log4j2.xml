@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="1800">
+
+    <properties>
+        <property name="LOG_HOME">logs</property>
+        <property name="FILE_NAME">app-comsystem</property>
+    </properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout charset="UTF-8" pattern="%d %-5p %c [%t] - %m%n" />
+        </Console>
+	
+        <RollingRandomAccessFile name="app-info"
+            fileName="${LOG_HOME}/${FILE_NAME}/info.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout charset="UTF-8"  pattern="%d %-5p %c [%t] - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+       	 <Filters>
+                <ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+         </Filters>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="app-error"
+            fileName="${LOG_HOME}/${FILE_NAME}/error.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout charset="UTF-8"  pattern="%d %-5p %c [%t] - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+       	 	<Filters>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingRandomAccessFile>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="com.leyes.app" level="INFO"
+            additivity="true">
+            <AppenderRef ref="app-info" />
+        </Logger>
+        <Root level="DEBUG" >
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="app-info" />
+            <AppenderRef ref="app-error" />
+        </Root>
+    </Loggers>
+</Configuration>

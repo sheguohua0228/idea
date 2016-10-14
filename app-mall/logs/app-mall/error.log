@@ -1,0 +1,330 @@
+2016-09-04 13:17:57,512 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:20:30,263 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?;    ;     update app_goods     SET stock_number=?     where id=?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+2016-09-04 13:20:30,265 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?;    ;     update app_goods     SET stock_number=?     where id=?;
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '; 
+			update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 4
+2016-09-04 13:26:42,250 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:26:42,282 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:43:33,043 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:43:33,045 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:45:46,684 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:nested exception is org.apache.ibatis.binding.BindingException: Parameter 'updateGoodsList' not found. Available parameters are [goodsList, param1]---- org.apache.ibatis.binding.BindingException: Parameter 'updateGoodsList' not found. Available parameters are [goodsList, param1]
+2016-09-04 13:45:46,685 ERROR ParameterInterceptor [main] - exception message is:org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.binding.BindingException: Parameter 'updateGoodsList' not found. Available parameters are [goodsList, param1]
+2016-09-04 13:57:07,970 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 13:57:08,008 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 14:06:56,750 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=9930     where id=1    ;     update app_goods     SET stock_number=9935     where id=10
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+2016-09-04 14:06:56,751 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=9930     where id=1    ;     update app_goods     SET stock_number=9935     where id=10
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id=10' at line 5
+2016-09-04 14:09:06,156 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?     ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 14:09:06,156 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?     ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 14:10:08,393 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?     ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 14:10:08,394 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?     ;      update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9935 
+			where id='10'' at line 5
+2016-09-04 14:12:15,914 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     set stock_number=?    where id=?     ;      update app_goods     set stock_number=?    where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+2016-09-04 14:12:15,916 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     set stock_number=?    where id=?     ;      update app_goods     set stock_number=?    where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+				set stock_number=9935
+			where id='10'' at line 5
+2016-09-04 14:22:42,315 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+2016-09-04 14:22:42,315 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+2016-09-04 14:24:37,630 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+2016-09-04 14:24:37,631 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+2016-09-04 14:26:28,344 ERROR ParameterInterceptor [main] - request occurred exception,The reason for the exception is:
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5---- com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+2016-09-04 14:26:28,344 ERROR ParameterInterceptor [main] - exception message is:org.springframework.jdbc.BadSqlGrammarException: 
+### Error updating database.  Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+### The error may involve com.leyes.app.mapper.MallMapper.deductGoodsStockNumber-Inline
+### The error occurred while setting parameters
+### SQL: update app_goods     SET stock_number=?     where id=?    ;     update app_goods     SET stock_number=?     where id=?
+### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5
+; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update app_goods
+			 SET stock_number=9933 
+			where id='10'' at line 5

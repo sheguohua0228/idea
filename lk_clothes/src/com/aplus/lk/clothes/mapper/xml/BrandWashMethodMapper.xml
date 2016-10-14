@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.BrandWashMethodMapper">
+	
+	 <resultMap type="com.aplus.lk.clothes.entity.BrandWashMethod" id="brandWashMethodResult">
+	 	<id property="id" column="id"/>
+	 	<result property="createTime" column="create_time"/>
+	 	<result property="updateTime" column="update_time"/>
+	 	<result property="brandGrade" column="brand_grade"/>
+	 	<result property="brandName" column="brand_name"/>
+	 	 
+	 </resultMap>
+	
+	<resultMap type="com.aplus.lk.clothes.entity.BrandWashMethod" id="brandResult">
+		<id property="id" column="id"/>
+		<result property="brandName" column="brand_name"/>
+		<result property="brandGrade" column="brand_grade"/>
+	</resultMap>
+	
+	<select id="queryAllBrand" parameterType="java.lang.Integer" resultMap="brandResult">
+		SELECT id,brand_grade,brand_name from lk_brand_wash_method
+		<if test="_parameter !=null">
+		 where brand_grade=#{_parameter} 
+		 </if>
+		 ORDER BY brand_grade asc,brand_name asc 
+	</select>
+	
+	<select id="queryByBrand" parameterType="String" resultMap="brandWashMethodResult">
+		select * from lk_brand_wash_method where brand_name=#{brandName}
+	</select>
+	
+	<insert id="add" parameterType="com.aplus.lk.clothes.entity.AppraisePO" useGeneratedKeys="true" keyProperty="id">
+		INSERT into lk_brand_wash_method (create_time,update_time,brand_grade,brand_name) VALUES(now(),now(),#{brandGrade},#{brandName})
+	</insert>
+	
+	<delete id="delete" parameterType="long">
+		delete from lk_brand_wash_method where id =#{id}
+	</delete>
+</mapper>

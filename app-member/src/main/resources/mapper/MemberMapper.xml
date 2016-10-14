@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.MemberMapper">
+	 <resultMap id="addressInfoResult" type="com.leyes.app.entity.AddressInfo" >
+	 	<id column="id" property="id"/>
+	 	<result column="user_name" property="userName"/>
+	 	<result column="phone_number" property="phoneNumber"/>
+	 	<result column="address" property="address"/>
+	 	<result column="address_detail" property="addressDetail"/>
+	 	<result column="community_id" property="communityId"/>
+	 	<result column="employee_remark_address" property="remarkAddress"/>
+	 </resultMap>
+	 <resultMap id="accountInfoResult" type="com.leyes.app.entity.Member">
+	 	<result column="deposit" property="deposit"/>
+	 	<result column="score" property="score"/>
+	 </resultMap>
+	 <resultMap id="userInfoResult" type="com.leyes.app.entity.Member">
+	  	<result property="userName" column="user_name"/>
+	 	<result property="headIcon" column="head_icon"/>
+	 	<result property="rankId" column="rank_id"/>
+	 	<result column="deposit" property="deposit"/>
+	 	<result column="score" property="score"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.Member" id="memberResult">
+	 	<result property="userName" column="user_name"/>
+	 	<result column="deposit" property="deposit"/>
+	 	<result column="score" property="score"/>
+	 	<result column="device_type" property="deviceType" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	 	<result column="device_token" property="deviceToken"/>
+	 </resultMap>
+	 
+	 <resultMap type="com.leyes.app.entity.MemberRank" id="memberRankResult">
+	 	<id property="id" column="id"/>
+	 	<result property="createTime" column="create_time"/>
+	 	<result property="updateTime" column="update_time"/>
+	 	<result property="name" column="name"/>
+	 	<result property="preferentialScale" column="preferential_scale"/>
+	 	<result property="score" column="score"/>
+	 	<result property="isDefault" column="is_default"/>
+	 	<result property="lv" column="lv"/>
+	 	<result property="discount" column="discount"/>
+	 </resultMap>
+	 
+	 <resultMap type="com.leyes.app.entity.CardPackage" id="cardPackageResult">
+	 	<result property="userId" column="user_id"/>
+	 	<result property="cardId" column="card_id"/>
+	 	<result property="useStatus" column="use_status"/>
+	 	<result property="invalidTime" column="invalid_time"/>
+	 	<result property="time" column="time"/>
+	 </resultMap>
+	 <select id="queryAddressById" resultMap="addressInfoResult">
+	 	SELECT user_name,phone_number,address,address_detail,community_id,employee_remark_address,
+	 	id from app_address_info WHERE id=#{addressId}
+	 </select>
+	 
+	 <insert id="createMember" parameterType="com.leyes.app.entity.Member">
+		INSERT INTO app_member (
+		id,create_time,update_time,account_status,
+		user_name,device_token,
+		rank_id,device_type,mobile,password
+		) VALUES (#{id},now(),now(),
+		#{accountStatus, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		#{userName},#{deviceToken},#{rankId},
+		#{deviceType, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{mobile},#{password})
+	</insert>
+	 
+	 <update id="updateAccount">
+	 	UPDATE app_member SET score=score+#{integral} ,deposit=deposit+#{balance} WHERE id =#{userId}
+	 </update>
+	 <select id="queryPhoneCount" resultType="long">
+	 	SELECT count(id) FROM app_member WHERE mobile=#{phone}
+	 </select>
+	 <select id="queryAccount" resultMap="accountInfoResult">
+	 	SELECT deposit,score FROM app_member WHERE id=#{userId}
+	 </select>
+	 <select id="queryUserInfo" resultMap="userInfoResult">
+	 	SELECT user_name,head_icon,(SELECT name FROM app_member_rank WHERE id =m.rank_id) AS rank_id FROM app_member AS m WHERE id=#{userId}
+	 </select>
+	 
+	 <select id="batchQueryMemberInfo" resultMap="userInfoResult">
+		 SELECT user_name,head_icon FROM app_member  WHERE id in
+	 	<foreach collection="userIds" open="(" close=")" separator="," item="id">
+				#{id}
+		</foreach>
+	 </select>
+	 
+	 <select id="queryCoupons" resultMap="cardPackageResult">
+	 	SELECT card_id,use_status FROM app_card_package as p WHERE 
+	 	p.user_id=#{userId}
+	 	AND p.use_status!=1
+	 	<if test="time!=null">
+	 	 AND time=#{time}
+	 	</if>
+	 	<![CDATA[ and invalid_time > now()]]>
+	 </select>
+	 
+	 <update id="updateMemberHeadImage">
+		 UPDATE app_member SET head_icon=#{imageUrl} WHERE id =#{userId}
+	 </update>
+	 
+	 <update id="updateMemberUserName">
+	 	 UPDATE app_member SET user_name=#{userName} WHERE id =#{userId}
+	 </update>
+	 
+	 <update id="updateMemberCommunity">
+	 	UPDATE app_member SET community_id=#{communityId} WHERE id =#{userId}
+	 </update>
+	 
+	 <update id="deleteDeviceToken">
+	  	UPDATE app_member SET device_token ='' WHERE device_token =#{deviceToken};
+	 </update>
+	  
+	 <update id="updateMemberDeviceToken">
+	 	UPDATE app_member SET device_token=#{deviceToken} WHERE id=#{userId};
+	 </update>
+	 <select id="queryCommunityId" resultType="string">
+	 	SELECT community_id FROM app_member WHERE id=#{userId}
+	 </select>
+	 
+	 <select id="queryUserIdByPhone" resultType="string">
+	 	SELECT id FROM app_member WHERE mobile=#{phone}
+	 </select>
+	 
+	 <select id="queryUserIdByPhone$password" resultType="string">
+	 	SELECT id FROM app_member WHERE mobile=#{phone} AND password=#{password}
+	 </select>
+	 
+	 <select id="queryAddressCount" resultType="long">
+	 	SELECT count(id) FROM app_address_info WHERE user_id=#{userId} AND 
+	 	user_name=#{userName} AND phone_number=#{phone} AND address_detail=#{addressDetail} 
+	 	AND community_id=#{communityId} and status=0
+	 </select>
+	 
+	 <insert id="saveAddressInfo" parameterType="com.leyes.app.entity.AddressInfo">
+	 	INSERT into app_address_info(
+		 	id,create_time,update_time,
+		 	address,address_detail,community_id,
+		 	phone_number,user_name,user_id,status
+	 	)VALUES(
+		 	#{id},now(),now(),
+		 	#{address},#{addressDetail},
+		 	#{communityId},#{phoneNumber},
+		 	#{userName},#{userId},
+		 	#{status, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+	 	)
+	 </insert>
+	 <update id="updateAddress">
+	 	UPDATE app_address_info SET update_time=now(),
+	 	user_name=#{userName},phone_number=#{phoneNumber},address=#{address},
+	 	community_id=#{communityId},address_detail=#{addressDetail} WHERE id=#{id}
+	 </update>
+	 
+	 <update id="updateAddressStatus">
+	 	UPDATE app_address_info SET update_time=now(),status=#{status} WHERE id=#{addressId}
+	 </update>
+	 <delete id="deleteAddress">
+	 	DELETE FROM app_address_info WHERE id =#{addressId}
+	 </delete>
+	 <select id="queryAddress" resultMap="addressInfoResult">
+		 SELECT user_name,phone_number,address,address_detail,community_id,
+	 	id from app_address_info WHERE user_id=#{userId} and status =#{status}
+	 	ORDER BY update_time DESC
+	  	LIMIT #{firstResult} ,10
+	 </select>
+	 
+	 <select id="queryHasOrderedAddressCount" resultType="long">
+	 	SELECT count(id) from app_address_info WHERE id=#{addressId} and has_ordered =1
+	 </select>
+	 
+	 <insert id="addCouponRecord" parameterType="com.leyes.app.entity.CardPackage">
+	 	INSERT INTO app_card_package 
+	 	(
+	 		id,create_time,update_time,user_id,card_id,use_status,invalid_time
+	 	)
+	 	 VALUES
+	 	(
+	 		#{id},now(),now(),#{userId},#{cardId},0,#{invalidTime}
+	 	)
+	 </insert>
+	 <update id="updateMemberExp">
+	  	UPDATE app_member SET exp_value=exp_value+#{expValue} WHERE id =#{userId}
+	 </update>
+	 
+	 <update id="updateMemberPassword">
+	 	update app_member set password=#{password} where id=#{userId}
+	 </update>
+	 <select id="queryMemberInfo" resultMap="memberResult">
+		 select deposit,score,device_type,device_token,user_name from app_member where id=#{userId}
+	 </select>
+	 
+	 <select id="queryMemberRankInfo" resultMap="memberRankResult">
+	 	 SELECT r.id,r.is_default,r.name,r.preferential_scale,r.score,
+	 	 r.lv,r.discount from app_member as m JOIN
+	 	 app_member_rank as r ON m.rank_id=r.id and m.id=#{userId}
+	 </select>
+	 
+	 <select id="queryMemberMobileById" resultType="java.lang.String">
+	 	select mobile from app_member where id=#{userId}
+	 </select>
+	 <update id="updateAddressRemark">
+	 	update app_address_info set employee_remark_address =#{remark} where id=#{addressId}
+	 </update>
+	 <select id="queryMemberAccountInfo" resultMap="userInfoResult">
+	 	SELECT m.deposit,m.score,
+	 	(SELECT name FROM app_member_rank WHERE id =m.rank_id) AS rank_id 
+	 	from app_member as m where mobile =#{phone}
+	 </select>
+	 <select id="queryExpValueOfRank" resultType="java.lang.String">
+	 	SELECT r.id from app_member_rank as r JOIN app_member as m ON r.id=m.rank_id AND m.id=#{userId}
+		and 
+		<![CDATA[ r.score <= m.exp_value ]]>
+		 ORDER BY r.lv desc LIMIT 0,1
+	 </select>
+	 <update id="updateMemberRankId">
+		 update app_member SET rank_id =#{rankId} WHERE id=#{userId}
+	 </update>
+	 <update id="useCoupon">
+	 UPDATE app_card_package SET use_status =1 WHERE user_id =#{userId} AND card_id=#{couponId}
+	 </update>
+</mapper>

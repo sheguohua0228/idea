@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.AppraiseMapper">
+	
+	 <resultMap type="com.aplus.lk.clothes.entity.AppraisePO" id="appraiseResults">
+	 	<id property="id" column="id"/>
+	 	<result property="createTime" column="createTime"/>
+	 	<result property="updateTime" column="updateTime"/>
+	 	<result property="orderId" column="order_id"/>
+	 	<result property="servceQuality" column="servce_quality"/>
+	 	<result property="content" column="content"/>
+	 	<result property="orderType" column="order_type"/>
+	 	<result property="orderNumber" column="order_number"/>
+	 	<result property="phoneNumber" column="phone_number"/>
+	 </resultMap>
+	 
+	 <select id="query" parameterType="map" resultMap="appraiseResults">
+	 	SELECT * from lk_appraise WHERE 1=1
+	 	<if test="orderNumber!='' and orderNumber!=null">
+	 		and order_number=#{orderNumber}
+	 	</if>
+	 	<if test="phoneNumber!='' and phoneNumber!=null">
+	 	and phone_number=#{phoneNumber}
+	 	</if>
+	 	 order by createTime desc
+		limit #{firstResult},#{maxResult}
+	 </select>
+	 
+	 
+	  <select id="queryCount" parameterType="map" resultType="int">
+	 	SELECT count(1) from lk_appraise WHERE 1=1
+	 	<if test="orderNumber!='' and orderNumber!=null">
+	 		and order_number=#{orderNumber}
+	 	</if>
+	 	<if test="phoneNumber!='' and phoneNumber!=null">
+	 	and phone_number=#{phoneNumber}
+	 	</if>
+	 </select>
+	 
+</mapper>

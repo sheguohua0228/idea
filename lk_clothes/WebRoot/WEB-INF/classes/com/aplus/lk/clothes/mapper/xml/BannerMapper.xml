@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.BannerMapper">
+	
+	<resultMap id="bannerResult" type="com.aplus.lk.clothes.entity.Banner">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		
+		<result property="name" column="name" />
+		<result property="status" column="status"/>
+		<result property="imageUrl" column="image_url" />
+		<result property="description" column="description" />
+		<result property="type" column="type" />
+		<result property="expirationTime" column="expiration_time"/>
+		
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.Banner">
+		insert into lk_banner(createTime,updateTime,name,status,image_url,description,type,expiration_time)
+			values(now(),now(),#{name},#{status},#{imageUrl},#{description},#{type},#{expirationTime})
+	</insert>
+	
+	<select id="queryByLimit" parameterType="map" resultMap="bannerResult">
+		select * from lk_banner where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+		<if test="type != null">
+			and type = #{type}
+		</if>
+		order by createTime desc
+		limit #{firstResult},#{maxResult}
+	</select>
+
+	<select id="queryCount" parameterType="map" resultType="int">
+		select count(*) from lk_banner where 1 = 1
+		<if test="name != null and name != ''">
+			and name like CONCAT('%',#{name},'%')
+		</if>
+		<if test="status != null">
+			and status = #{status}
+		</if>
+	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.Banner">
+		update lk_banner set updateTime = now()
+			<if test="name != null and name != ''">
+				,name = #{name}
+			</if>
+			<if test="status != null">
+				,status = #{status}
+			</if>
+			<if test="imageUrl != null and imageUrl != ''">
+				,image_url = #{imageUrl}
+			</if>
+			<if test="type != null">
+				,type = #{type}
+			</if>
+			<if test="expirationTime !=null">
+				,expiration_time=#{expirationTime}
+			</if>
+			, description = #{description}
+			where id = #{id}
+	</update>
+	
+	<delete id="delete" >
+		delete from lk_banner where id in 
+		<foreach collection="array" item="id" open="(" close=")" separator=",">#{id}</foreach>
+	</delete>
+	
+	<delete id="deleteById" parameterType="long">
+		delete from lk_banner where id = #{id}
+	</delete>
+	
+	<select id="queryById" parameterType="long" resultMap="bannerResult">
+		select * from lk_banner where id = #{id}
+	</select>
+	
+	<select id="queryImageUrlById" parameterType="long" resultType="string">
+		select image_url from lk_banner where id = #{id}
+	</select>
+	
+</mapper>

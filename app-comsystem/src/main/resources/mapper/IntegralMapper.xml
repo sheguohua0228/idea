@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.IntegralMapper">
+     <resultMap  id="integralRuleResult" type="com.leyes.app.entity.IntegralRule">
+     	<result column="type" property="type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+     	<result column="source_type" property="sourceType"  typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+     	<result column="ratio" property="ratio"/>
+     </resultMap>
+     
+     <select id="queryRule" resultMap="integralRuleResult">
+     	select type,source_type,ratio from app_integral_rule where 
+     	type=#{tradeType}
+     	and source_type=#{sourceType} 
+     	order by start_time desc limit 0,1
+     </select>
+    <!--  ,typeHandler=org.apache.ibatis.type.EnumTypeHandler -->
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.ComsystemMapper">
+    <resultMap id="updateInfoResult" type="com.leyes.app.entity.ClientUpdateInfo" >
+       <result property="downloadUrl" column="download_url"/>
+       <result property="versionCode" column="version_code"/>
+    </resultMap>
+	
+	<resultMap id="bannerResult" type="com.leyes.app.entity.Banner" >
+	   <result property="imageUrl" column="image_url"/>
+	   <result property="description" column="description"/>
+	   <result property="linkUrl" column="link_url"/>
+	</resultMap>
+	  <resultMap id="couponResult" type="com.leyes.app.entity.Coupon">
+	 	<id property="id" column="id" />
+		<result column="name" property="name" />
+		<result column="denomination" property="denomination" />
+		<result column="price" property="price" />
+		<result column="invalid_time" property="invalidTime" />
+		<result column="use_condition" property="useCondition" />
+		<result column="remark" property="remark" />
+		<result column="card_type" property="cardType"  typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result column="use_scene" property="useScene" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result column="reuse" property="reuse" />
+		<result column="clothes_number" property="clothesNumber" />
+		<result column="shoe_number" property="shoeNumber" />
+		<result column="darn_number" property="darnNumber" />
+		<result column="visa_photo_number" property="visaPhotoNumber" />
+		<result column="passport_number" property="passportNumber" />
+		<result column="discount_ratio_one" property="discountRatioOne"/>
+		<result column="discount_ratio_two" property="discountRatioTwo"/>
+		<result column="time" property="time"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.Category" id="categoryResult">
+	 	<id property="id" column="id"/>
+	 	<result property="name" column="name"/>
+	 	<result property="icon" column="icon"/>
+	 	<result property="parentId" column="parent_id"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.ServiceCharge" id="serviceChargeResult">
+	 	<id property="id" column="id"/>
+	 	<result property="orderType" column="order_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	 	<result property="expense" column="expense"/>
+	 	<result property="sendCondition" column="send_condition"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.RechargeOrder" id="rechargeOrderResult">
+	 	<id property="id" column="id"/>
+	 	<result property="orderNumber" column="order_number"/>
+		<result property="payType" column="pay_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+		<result property="userId" column="user_id"/>
+		<result property="price" column="price"/>
+		<result property="payStatus" column="pay_status" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.Topic" id="topicResult">
+	 	<result column="name" property="name"/>
+	 	<result property="jumpUrl" column="jump_url"/>
+	 	<result property="imageUrl" column="image_url"/>
+	 </resultMap>
+	 <resultMap type="com.leyes.app.entity.RechargeCard" id="rechargeCardResult">
+	 	<id column="id" property="id"/>
+	 	<result column="denomination" property="denomination"/>
+	 	<result column="price" property="price"/>
+	 	<result column="invalid_time" property="invalidTime"/>
+	 	<result column="time" property="time"/>
+	 	<result column="card_type" property="cardType" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	 </resultMap>
+	 
+	 
+	<select id="findByClientVersion" resultMap="updateInfoResult">
+	   select download_url,version_code from app_client_update where platform = #{platform} and type=#{clientType}
+	   <![CDATA[and version_code > #{versionCode}]]>
+	</select>
+	
+	<select id="findBanners" resultMap="bannerResult">
+	   select image_url,link_url from app_banner where status = #{status} 
+	   <![CDATA[ and expire_time > now()]]>
+	</select>
+	
+	<select id="queryCoupons" resultMap="couponResult">
+	 	SELECT id,name,denomination,price,invalid_time,
+	 	use_condition,remark,
+		card_type,use_scene,reuse,clothes_number,
+		shoe_number,darn_number,visa_photo_number,passport_number,
+		discount_ratio_one,discount_ratio_two
+	 	FROM app_coupon  WHERE  id in
+	 	<foreach collection="list" open="(" close=")" separator="," item="couponId">
+				#{couponId}
+		</foreach>
+	    	AND invalid_time>now()
+	 	<if test="useScene!=-1">
+	 		AND use_scene in (#{useScene},-1) 
+	 	</if>
+	 	<if test="price!=null and price != 0">
+	 		<![CDATA[and use_condition <=#{price}]]>
+	 	</if>
+		  ORDER BY create_time DESC
+		  LIMIT #{firstResult},10
+	 </select>
+	 <select id="queryCouponInfo" resultMap="couponResult">
+	 	SELECT id,name,denomination,price,invalid_time,
+	 	use_condition,remark, 
+		card_type,use_scene,reuse,clothes_number,
+		shoe_number,darn_number,visa_photo_number,passport_number,
+		discount_ratio_one,discount_ratio_two
+	 	FROM app_coupon  WHERE id=#{couponId}
+	 </select>
+	 
+	 <select id="queryCouponByPassword" resultMap="couponResult">
+	 	SELECT id,price,card_type,reuse,time,invalid_time 
+	 	FROM app_coupon WHERE password=#{password} and bind_user=0  
+	 	<![CDATA[ and invalid_time > now()]]>
+	 </select>
+	 
+	 <update id="updateCouponStatus">
+	 	UPDATE app_coupon SET bind_user=1 WHERE id=#{couponId}
+	 </update>
+	 
+	 <select id="queryCategoryByType" resultMap="categoryResult">
+	 	SELECT c.id,c.name,c.icon,c.parent_id FROM  app_category AS c WHERE 
+		 c.type=#{type} order by sort asc
+	 </select>
+	 
+	 <select id="queryServiceChargeByOrderType" resultMap="serviceChargeResult">
+	 	SELECT expense,send_condition FROM app_service_charge WHERE order_type=#{orderType}
+	 </select>
+	 
+	 <select id="queryUserCoupons" resultMap="couponResult">
+	 	SELECT c.id,name,c.denomination,c.price,c.invalid_time,
+	 	c.use_condition,c.remark,
+		c.card_type,c.use_scene,c.reuse,c.clothes_number,
+		c.shoe_number,c.darn_number,c.visa_photo_number,c.passport_number,
+		c.discount_ratio_one,c.discount_ratio_two from app_card_package as p JOIN app_coupon as c ON
+ 		user_id=#{userId} AND c.invalid_time>now() AND p.card_id=c.id AND c.card_type=#{cardType} ORDER BY c.discount_ratio_two ASC
+	 </select>
+	 <select id="queryChildCategoryId" resultType="java.lang.String">
+		SELECT id from app_category WHERE parent_id =#{categoryId}
+	</select>
+	
+	<insert id="saveRechargeOrder" parameterType="com.leyes.app.entity.RechargeOrder">
+		INSERT INTO  app_recharge_order(
+		id,create_time,update_time,order_number,pay_type,price,user_id,pay_status
+		) VALUES(
+		#{id},now(),now(),#{orderNumber},#{payType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+		#{price},#{userId},#{payStatus,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+		)
+	</insert>
+	<select id="queryRechargeOrderPayStatus" resultMap="rechargeOrderResult">
+		select id,pay_status,user_id,price,pay_type from app_recharge_order where order_number=#{orderNumber}
+	</select>
+	<update id="updateRechargeOrderPayStatus">
+		update app_recharge_order set pay_status=#{payStatus} where id=#{orderId}
+	</update>
+	<update id="updateCoupon">
+		UPDATE app_coupon SET update_time=now(),clothes_number=#{clothesNumber},
+		shoe_number=#{shoeNumber},darn_number=#{darnNumber},
+		visa_photo_number=#{visaPhotoNumber},passport_number=#{passportNumber} WHERE id=#{id}
+	</update>
+	<select id="queryTopics" resultMap="topicResult">
+		select jump_url,image_url,name from app_topic where status=#{status}
+	</select>
+	 <select id="queryRechargeCardByPassword" resultMap="rechargeCardResult">
+	  	select id,denomination,invalid_time,card_type,time from app_recharge_card where password =#{password} 
+	  	and use_status=0 
+	  	<![CDATA[ and invalid_time > now()]]>
+	 </select>
+	 
+	 <select id="queryRecommendUseRecord" resultType="int">
+	 	select count(1) from app_recommend_use_record where user_id=#{userId} 
+	 	<if test="code !=null and code !=''">
+	 	AND code=#{code}
+	 	</if>
+	 	 and type=#{type}
+	 </select>
+	 <update id="updateRechargeCardUseStatus">
+	 	update app_recharge_card set use_status=1,invalid_time=now() where id=#{cardId}
+	 </update>
+	 <insert id="saveUseRecommendRecord" parameterType="com.leyes.app.entity.RecommendUseRecord">
+	 	insert into app_recommend_use_record (
+	 		create_time,update_time,user_id,`code`,type
+	 	)
+	 	values(
+			now(),now(),#{userId},#{code},#{type}	 	
+	 	)
+	 </insert>
+</mapper>

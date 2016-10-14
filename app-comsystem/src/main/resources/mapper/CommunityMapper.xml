@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leyes.app.mapper.CommunityMapper">
+	  <resultMap type="com.leyes.app.entity.Community" id="communityResult">
+	  	<id property="id" column="id"/>
+	  	<result property="parentId" column="parent_id" />
+	  	<result property="latitude" column="latitude"/>
+	  	<result property="longitude" column="longitude"/>
+	  	<result property="name" column="name"/>
+	  	<result property="address" column="address"/>
+	  </resultMap>
+	  
+	  <select id="queryCommunityById" resultMap="communityResult">
+	  	SELECT id,parent_id,longitude,latitude,name,address 
+	  	FROM app_community WHERE id=#{communityId}
+	  </select>
+	  
+	  <select id="queryCommunityByIds" resultMap="communityResult">
+	  	select id,name from app_community where id in
+	  	<foreach collection="list" open="(" close=")" separator="," item="communityId">
+				#{communityId}
+		</foreach>
+	  </select>
+	  <select id="queryCommunityPropertyPhone" resultType="java.lang.String">
+	  	select property_phone from app_community where id=#{communityId}
+	  </select>
+	  <select id="queryChirldCommunity" resultMap="communityResult">
+	 	 select id,name from app_community where parent_id=#{communityId}
+	  </select>
+	  <select id="queryParentCommunityId" resultType="java.lang.String">
+	  	SELECT parent_id from app_community where id=#{communityId}
+	  </select>
+	  <select id="searchCommunity" resultMap="communityResult">
+	  	select id,parent_id,latitude,longitude,name,address from app_community where status=#{status} and name like CONCAT('%',#{keyWord},'%') 
+	  </select>
+</mapper>

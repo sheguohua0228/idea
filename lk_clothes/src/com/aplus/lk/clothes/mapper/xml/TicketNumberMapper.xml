@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.TicketNumberMapper">
+	
+	<resultMap id="qrCodeResult" type="com.aplus.lk.clothes.entity.TicketNumber">
+		<id property="id" column="id"/>
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time"/>
+		<result property="totalName" column="total_name"/>
+		<result property="type" column="type"/>
+	</resultMap>
+	
+	<select id="findTotalByTotal"  parameterType="int" resultType="int">
+		select sum(total_name) from lk_ticket_number lk where  lk.type = #{0}
+	</select>
+	<select id="queryRecods" resultType="java.util.HashMap">
+		SELECT DATE_FORMAT(create_time,'%Y-%m') months ,sum(total_name) sum from lk_ticket_number WHERE type=1 GROUP BY months 
+	</select>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.TicketNumber">
+		insert into lk_ticket_number(create_time,update_time,total_name,type) values(#{createTime},#{updateTime},#{totalName},#{type})
+	</insert>
+</mapper>

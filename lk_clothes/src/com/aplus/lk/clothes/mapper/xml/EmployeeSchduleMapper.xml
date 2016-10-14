@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.EmployeeScheduleMapper">
+	
+	<resultMap id="Result" type="com.aplus.lk.clothes.entity.EmployeeSchuduleEntity">
+		<result property="communityId" column="temporary_community_id" />
+		<result property="communityName" column="name" />
+		<result property="employeeName" column="real_name" />
+		<result property="employeeId" column="id" />
+		<association property="shedule" resultMap="sheduleResult"></association>
+	</resultMap>
+	
+	<resultMap id="employeeSchuduleResult" type="com.aplus.lk.clothes.entity.EmployeeSchedule">
+		<result property="scheduleId" column="schedule_id" />
+		<result property="status" column="status" />
+		<result property="leaveOffTime" column="leave_off_time" />
+		<result property="employeeId" column="employee_id" />
+		<result property="id" column="id" />
+		<result property="temporaryCommunityId" column="temporary_community_id" />
+	</resultMap>
+	
+	<resultMap id="sheduleResult" type="com.aplus.lk.clothes.entity.Shedule">
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		<result property="monday" column="monday" />
+		<result property="mondayTime" column="monday_time" />
+		<result property="tuesday" column="tuesday" />
+		<result property="tuesdayTime" column="tuesday_time" />
+		<result property="wednesday" column="wednesday" />
+		<result property="wednesdayTime" column="wednesday_time" />
+		<result property="thursday" column="thursday" />
+		<result property="thursdayTime" column="thursday_time" />
+		<result property="friday" column="friday" />
+		<result property="fridayTime" column="friday_time" />
+		<result property="saturday" column="saturday" />
+		<result property="saturdayTime" column="saturday_time" />
+		<result property="sunday" column="sunday" />
+		<result property="sundayTime" column="sunday_time" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+	</resultMap>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.EmployeeSchedule">
+		insert into lk_employee_schedule 
+			(
+				createTime, 
+				updateTime, 
+				employee_id,
+				schedule_id,
+				status,
+				leave_off_time,
+				temporary_community_id
+			)
+			values 
+			(
+				#{createTime},
+				#{updateTime},
+				#{employeeId},
+				#{scheduleId},
+				#{status},
+				#{leaveOffTime},
+				#{temporaryCommunityId}
+			)
+	</insert>
+	
+	<select id="queryByLimit" parameterType="java.util.ArrayList" resultMap="Result">
+		select 
+			   sch.*, 
+			   em.real_name, 
+			   em.id, 
+			   emsch.temporary_community_id, 
+			   addr.name
+	    from 
+	    	   lk_address_center addr,
+			   lk_schedule sch, 
+		       lk_employee em, 
+		       lk_employee_schedule emsch
+		where 
+		      sch.id = emsch.schedule_id 
+			  and emsch.employee_id = em.id 
+			  and em.address_center_id = addr.id
+			  and emsch.status in (0,3)
+			  and emsch.schedule_id in 
+    		  <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+    			  #{item}
+			  </foreach>
+	</select>
+	
+	<select id="queryByNameLimit" parameterType="string" resultMap="Result">
+		select 
+			   sch.*, 
+			   em.real_name, 
+			   em.id, 
+			   emsch.temporary_community_id, 
+			   addr.name
+	    from 
+	    	   lk_address_center addr,
+			   lk_schedule sch, 
+		       lk_employee em, 
+		       lk_employee_schedule emsch
+		where 
+		      sch.id = emsch.schedule_id 
+			  and emsch.employee_id = em.id 
+			  and em.address_center_id = addr.id
+			  and emsch.status in (0,3)
+			  and addr.name like CONCAT('%',#{0},'%')
+	</select>
+	
+	<select id="queryByScheduleIdAndEmployeeId" parameterType="string" resultMap="employeeSchuduleResult">
+		select * from lk_employee_schedule emsch 
+		where emsch.employee_id = #{1}
+		and emsch.schedule_id = #{0}
+		and emsch.temporary_community_id = #{2}
+ 	</select>
+	
+	<update id="update" parameterType="com.aplus.lk.clothes.entity.EmployeeSchedule">
+		update lk_employee_schedule set 
+			updateTime = now(),
+			status = #{status}
+			where id = #{id}
+	</update>
+	
+</mapper>

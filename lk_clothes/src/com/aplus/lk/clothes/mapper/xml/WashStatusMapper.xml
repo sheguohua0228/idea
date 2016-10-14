@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aplus.lk.clothes.mapper.WashStatusMapper">
+	
+	<resultMap id="washStatusResult" type="com.aplus.lk.clothes.entity.WashStatus">
+		
+		<id property="id" column="id"/>
+		<result property="createTime" column="createTime" />
+		<result property="updateTime" column="updateTime"/>
+		
+		<result property="clothesOrderId" column="clothes_order_id"/>
+		<result property="clothesOrderStatus" column="clothes_order_status"/>
+		<result property="clothesImageUrl" column="clothesImageUrl" />
+		<result property="description" column="description"/>
+		<result property="getOrBackTime" column="get_or_back_time"/>
+		<result property="operator" column="operator"/>
+	</resultMap>
+	
+	<select id="queryWashStatusByOrderId" parameterType="long" resultMap="washStatusResult">
+		select * from lk_wash_status_description where clothes_order_id = #{orderId} order by id
+	</select>
+	
+	<insert id="save" parameterType="com.aplus.lk.clothes.entity.WashStatus">
+		insert into lk_wash_status_description (createTime, updateTime, clothes_order_id, clothes_order_status, 
+			clothesImageUrl, description,operator,outImageUrl)
+			values (#{createTime},#{updateTime},#{clothesOrderId},#{clothesOrderStatus},#{clothesImageUrl},#{description},#{operator},#{outImageUrl})
+	</insert>
+		
+</mapper>

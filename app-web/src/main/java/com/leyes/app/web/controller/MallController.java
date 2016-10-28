@@ -66,7 +66,7 @@ import com.leyes.app.web.utils.ReturnResult;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-//@Controller
+@Controller
 @RequestMapping("mall")
 @Api(value = "mall-api", description = "值得买模块接口API", position = 1)
 public class MallController extends BaseController{

@@ -50,7 +50,7 @@ import com.leyes.app.web.utils.ReturnResult;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Controller
+//@Controller
 @RequestMapping("print")
 @Api(value = "print-api", description = "打印模块接口API", position = 1)
 public class PrintController  extends BaseController{

@@ -74,7 +74,7 @@
 				<project>dev</project>
 			</properties>
 			<activation>
-				<activeByDefault>false</activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
 		<profile>
@@ -83,7 +83,7 @@
 				<project>test</project>
 			</properties>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 			</activation>
 		</profile>
 		<profile>
@@ -101,14 +101,8 @@
 		<module>../app-common</module>
 		<module>../app-service</module>
 		<module>../app-comsystem</module>
-		<module>../app-clothes</module>
-		<module>../app-print</module>
-		<module>../app-message</module>
 		<module>../app-web</module>
-		<module>../app-employee</module>
 		<module>../app-member</module>
 		<module>../app-mall</module>
-		<module>../app-manage</module>
-		<module>../app-query</module>
 	</modules>
 </project>

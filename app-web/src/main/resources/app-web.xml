@@ -19,27 +19,17 @@
 	<dubbo:application name="app_web"/>
 	
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
-	<dubbo:registry address="zookeeper://120.26.210.54:2181" check="false"/>
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" check="false"/>
 	
 	<!-- 关闭所有服务的启动时检查：(没有提供者时报错)  -->
     <dubbo:consumer check="false" timeout="99999"/>
 	
 	<!-- 要引用的服务 -->
-	<dubbo:reference interface="com.leyes.app.service.ClothesService" id="clothesService" version="2.0.0" check="false"/>
 	
 	<dubbo:reference interface="com.leyes.app.service.ComsystemService" id="comsystemService" version="2.0.0" check="false"/>
-
-	<dubbo:reference interface="com.leyes.app.service.EmployeeService" id="employeeService" version="2.0.0" check="false"/>
 	
 	<dubbo:reference interface="com.leyes.app.service.MemberService" id="memberService" version="2.0.0" check="false"/>
 	
-	<dubbo:reference interface="com.leyes.app.service.PrintService" id="printService" version="2.0.0" check="false"/>
-	
-	<dubbo:reference interface="com.leyes.app.service.MessageService" id="messageService" version="2.0.0" check="false"/>
-	
 	<dubbo:reference interface="com.leyes.app.service.MallService" id="mallService" version="2.0.0" check="false"/>
-	
-	<dubbo:reference interface="com.leyes.app.service.QuerySystemService" id="querySystemService" version="2.0.0" check="false"/>
-	
-	<dubbo:reference interface="com.leyes.app.service.StatisticsService" id="statisticsService" version="2.0.0" check="false"/>
+
 </beans>

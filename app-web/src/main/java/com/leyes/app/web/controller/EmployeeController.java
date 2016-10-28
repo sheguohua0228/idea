@@ -86,7 +86,7 @@ import com.leyes.app.web.utils.SessionContextUtils;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Controller
+//@Controller
 @RequestMapping("employee")
 @Api(value="employee-api",description="小哥端接口api",position=1)
 public class EmployeeController extends BaseController{

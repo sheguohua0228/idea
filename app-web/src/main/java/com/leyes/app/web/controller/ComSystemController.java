@@ -76,11 +76,11 @@ import com.wordnik.swagger.annotations.ApiOperation;
 public class ComSystemController extends BaseController{
 
 	private ComsystemService comsystemService=SpringContextUtils.getBean("comsystemService");
-	private ClothesService clothesService = SpringContextUtils.getBean("clothesService");
+	private ClothesService clothesService = null;
 	private MemberService memberService=SpringContextUtils.getBean("memberService");
-	private PrintService printService=SpringContextUtils.getBean("printService");
+	private PrintService printService=null;
 	private MallService mallService=SpringContextUtils.getBean("mallService");
-	private EmployeeService employeeService=SpringContextUtils.getBean("employeeService");
+	private EmployeeService employeeService=null;
 	
 	@ApiOperation(value = "检查更新", notes = "检查更新",response=ReturnResult.class, position = 1)
 	@RequestMapping(value = "checkUpdate", method = RequestMethod.POST)

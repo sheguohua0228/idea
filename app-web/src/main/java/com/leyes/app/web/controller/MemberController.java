@@ -86,17 +86,17 @@ public class MemberController extends BaseController{
 	
 	private ComsystemService comsystemService=SpringContextUtils.getBean("comsystemService");
 	
-	private ClothesService clothesService = SpringContextUtils.getBean("clothesService");
+	private ClothesService clothesService = null;
 	
-	private EmployeeService employeeService=SpringContextUtils.getBean("employeeService");
+	private EmployeeService employeeService=null;
 	 
-	private PrintService printService=SpringContextUtils.getBean("printService");
+	private PrintService printService=null;
 	
 	private MallService mallService=SpringContextUtils.getBean("mallService");
 	
-	private QuerySystemService querySystemService=SpringContextUtils.getBean("querySystemService");
+	private QuerySystemService querySystemService=null;
 	
-	private StatisticsService statisticsService = SpringContextUtils.getBean("statisticsService");
+	private StatisticsService statisticsService = null;
 	
 	@ApiOperation(value = "获取验证码", notes = "获取验证码",response=ReturnResult.class, position = 6)
 	@RequestMapping(value = "getVerificationCode", method = RequestMethod.POST)

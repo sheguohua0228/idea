@@ -58,7 +58,7 @@ import com.leyes.app.web.utils.ReturnResult;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 
-@Controller
+//@Controller
 @RequestMapping("clothes")
 @Api(value = "clothes-api", description = "洗衣模块接口API", position = 1)
 public class ClothesController  extends BaseController{

@@ -12,9 +12,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-service:2.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-common:2.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-infrastucture:2.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="app-service" />
+    <orderEntry type="module" module-name="app-common" />
+    <orderEntry type="module" module-name="app-infrastucture" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.4.0.RELEASE" level="project" />

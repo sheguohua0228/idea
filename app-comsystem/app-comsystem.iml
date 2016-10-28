@@ -32,9 +32,9 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-library:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.skyscreamer:jsonassert:1.3.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.json:json:20140107" level="project" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-service:2.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-common:2.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.leyes.app:app-infrastucture:2.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="app-service" />
+    <orderEntry type="module" module-name="app-common" />
+    <orderEntry type="module" module-name="app-infrastucture" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.yaml:snakeyaml:1.17" level="project" />

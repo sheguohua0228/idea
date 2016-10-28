@@ -1,6 +1,0 @@
-2016-09-06 12:18:25,621 ERROR com.leyes.app.util.SendSMS [DubboServerHandler-10.1.1.161:20880-thread-10] - 发送短信响应状态码为：1
- 响应结果描述为:操作成功
-2016-09-06 12:19:58,046 ERROR ParameterInterceptor [DubboServerHandler-10.1.1.161:20880-thread-13] - request occurred exception,The reason for the exception is:验证码不存在或已过期---- null
-2016-09-06 12:19:58,047 ERROR ParameterInterceptor [DubboServerHandler-10.1.1.161:20880-thread-13] - exception message is:com.leyes.app.exceptions.ComsystemException: 验证码不存在或已过期
-2016-09-06 12:20:04,581 ERROR com.leyes.app.util.SendSMS [DubboServerHandler-10.1.1.161:20880-thread-14] - 发送短信响应状态码为：1
- 响应结果描述为:操作成功

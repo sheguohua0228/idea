@@ -23,7 +23,7 @@ public class AppStarter {
 	
 	public static void main(String[] args) {
 		SpringApplication application=new SpringApplication(AppStarter.class);
-		application.addListeners(new InitMQReceiveInformation());
-		application.run(args);
+		//application.addListeners(new InitMQReceiveInformation());
+		application.run(args); 
 	}
 }
